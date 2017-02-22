@@ -6,7 +6,10 @@
     var gridData = makeArr( 5, makeArr( 5, null ) );
     var playerPos = [ 0, 0 ];
     var playerPosNew = [];
-    var bombs = 3;
+
+    var inventory = {
+        bombs: 3
+    };
 
     gridData[ playerPos[ 0 ] ][ playerPos[ 1 ] ] = 1;
 
@@ -34,8 +37,37 @@
         return output;
     }
 
+
+    function getInventory( item ) {
+        item = item || '';
+
+        if ( !item || !inventory[ item ] ) {
+            return null;
+        }
+
+        return inventory[ item ];
+    }
+
+
+    function updateInventory( item, update ) {
+        item = item || '';
+        update = update || 0;
+
+        // Validate args.
+        if ( !item || !update || !inventory[ item ] ) {
+            return null;
+        }
+
+        // Update inventory.
+        inventory[ item ] += update;
+
+        // Return updated inventory.
+        return inventory[ item ];
+    }
+
+
     function placeBomb() {
-        if ( bombs ) {
+        if ( getInventory( 'bombs' ) ) {
             // Create new 'bomb' elem. and add to document.
             var playerCoords =  getPlayerLocation();
             var bombElem = buildBombElement( playerCoords );
@@ -45,7 +77,7 @@
             // - Update `gridData`.
             // - Handle 'explosion' countdown.
 
-            bombs--;
+            updateInventory( 'bombs', -1 );
         }
     }
 
