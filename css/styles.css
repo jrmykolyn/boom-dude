@@ -66,6 +66,16 @@ main {
     transform: scale( 0.75 );
 }
 
+.bomb {
+    width: 100px;
+    height: 100px;
+    display: block;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    transform: scale( 0.5 );
+}
+
 
 .grid {
     width: 500px;
