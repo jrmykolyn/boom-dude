@@ -1,0 +1,47 @@
+* {
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    padding: 100px;
+    background-color: #F9F9F9;
+}
+
+
+.grid {
+    width: 500px;
+    height: 500px;
+    display: block;
+    background-color: white;
+    box-shadow: 0px 3px 20px -5px rgba( 0,0,0,0.15 );
+    margin: 0 auto;
+}
+
+
+.row {
+    width: 100%;
+    height: 100px;
+    display: block;
+    overflow: auto;
+}
+
+
+.row:nth-child( even ) .space:nth-child( 2n ),
+.row:nth-child( odd ) .space:nth-child( 2n - 1 ) {
+    background-color: #BABABA;
+}
+
+
+.space {
+    width: 100px;
+    height: 100px;
+    display: block;
+    float: left;
+}
