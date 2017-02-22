@@ -2,12 +2,15 @@
 
     // DECLARE VARS
     var player = document.getElementsByClassName( 'player' )[ 0 ];
+    var grid = document.getElementsByClassName( 'grid' )[ 0 ];
 
     // DECLARE FUNCTIONS
     function movePlayer( player, direction ) {
         var prop = null;
         var mod = 1;
-        var val = null;
+        var currVal = null;
+        var newVal = null;
+        var maxVal = null;
 
         switch ( direction ) {
             case 'up':
@@ -16,6 +19,7 @@
                 console.log( 'MATCHED "up" || "down".' ); /// TEMP
                 console.log( player.style.top ); /// TEMP
                 prop = 'top';
+                maxVal = grid.clientHeight;
 
                 break;
             case 'left':
@@ -24,15 +28,19 @@
                 console.log( 'MATCHED "left" || "right".' ); /// TEMP
                 console.log( player.style.left ); /// TEMP
                 prop = 'left';
+                maxVal = grid.clientWidth;
 
                 break;
             default:
                 // DO NO THINGS;
         }
 
-        val = parseInt( player.style[ prop ] ) || 0;
+        currVal = parseInt( player.style[ prop ] ) || 0;
+        newVal = ( currVal + ( mod * 100 ) );
 
-        player.style[ prop ] = ( val + ( mod * 100 ) ) + 'px';
+        if ( newVal >= 0 && newVal < maxVal ) {
+            player.style[ prop ] = newVal + 'px';
+        }
     }
 
     // EVENTS
