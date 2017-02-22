@@ -2,12 +2,34 @@
 
     // DECLARE VARS
     var player = document.getElementsByClassName( 'player' )[ 0 ];
-    var grid = document.getElementsByClassName( 'grid' )[ 0 ];
+    var gridElem = document.getElementsByClassName( 'grid' )[ 0 ];
+    var gridData = makeArr( 5, makeArr( 5, null ) );
+    var playerPos = [ 0, 0 ];
+    var playerPosNew = [];
+
+    gridData[ playerPos[ 0 ] ][ playerPos[ 1 ] ] = 1;
+
+    console.log( gridData ); /// TEMP
 
     // DECLARE FUNCTIONS
+    function makeArr( length, value ) {
+        var arr = [];
+
+        for ( var i = 0, x = length; i < x; i++ ) {
+            if ( !Array.isArray( value ) ) {
+                arr.push( value );
+            } else {
+                arr.push( value.slice( 0 ) );
+            }
+        }
+
+        return arr;
+    }
+
     function movePlayer( player, direction ) {
         var prop = null;
         var mod = 1;
+        var moveDir = null;
         var currVal = null;
         var newVal = null;
         var maxVal = null;
@@ -16,19 +38,17 @@
             case 'up':
                 mod = -1;
             case 'down':
-                console.log( 'MATCHED "up" || "down".' ); /// TEMP
-                console.log( player.style.top ); /// TEMP
                 prop = 'top';
-                maxVal = grid.clientHeight;
+                maxVal = gridElem.clientHeight;
+                moveDir = 'v';
 
                 break;
             case 'left':
                 mod = -1;
             case 'right':
-                console.log( 'MATCHED "left" || "right".' ); /// TEMP
-                console.log( player.style.left ); /// TEMP
                 prop = 'left';
-                maxVal = grid.clientWidth;
+                maxVal = gridElem.clientWidth;
+                moveDir = 'h';
 
                 break;
             default:
@@ -40,6 +60,23 @@
 
         if ( newVal >= 0 && newVal < maxVal ) {
             player.style[ prop ] = newVal + 'px';
+
+            // Upgdate position within `gridData`:
+            playerPosNew = playerPos.slice( 0 );
+
+            if ( moveDir === 'v' ) {
+                playerPosNew[ 0 ] = ( mod !== -1  ) ? ( playerPos[ 0 ] + 1 ) : ( playerPos[ 0 ] - 1 );
+            } else {
+                playerPosNew[ 1 ] = ( mod !== -1  ) ? ( playerPos[ 1 ] + 1 ) : ( playerPos[ 1 ] - 1 );
+            }
+
+            // Clear original position:
+            gridData[ playerPos[ 0 ] ][ playerPos[ 1 ] ] = null;
+
+            // Occupy new position:
+            gridData[ playerPosNew[ 0 ] ][ playerPosNew[ 1 ] ] = 1;
+
+            playerPos = playerPosNew;
         }
     }
 
