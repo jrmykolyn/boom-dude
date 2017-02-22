@@ -6,10 +6,9 @@
     var gridData = makeArr( 5, makeArr( 5, null ) );
     var playerPos = [ 0, 0 ];
     var playerPosNew = [];
+    var bombs = 3;
 
     gridData[ playerPos[ 0 ] ][ playerPos[ 1 ] ] = 1;
-
-    console.log( gridData ); /// TEMP
 
     // DECLARE FUNCTIONS
     function makeArr( length, value ) {
@@ -24,6 +23,40 @@
         }
 
         return arr;
+    }
+
+    function getPlayerLocation() {
+        var output = {};
+
+        output.top = parseInt( player.style.top ) || 0;
+        output.left = parseInt( player.style.left ) || 0;
+
+        return output;
+    }
+
+    function placeBomb() {
+        if ( bombs ) {
+            // Create new 'bomb' elem. and add to document.
+            var playerCoords =  getPlayerLocation();
+            var bombElem = buildBombElement( playerCoords );
+            gridElem.appendChild( bombElem );
+
+            /// TODO[@jrmykolyn]
+            // - Update `gridData`.
+            // - Handle 'explosion' countdown.
+
+            bombs--;
+        }
+    }
+
+    function buildBombElement( coords ) {
+        var el = document.createElement( 'div' );
+
+        el.classList.add( 'bomb' );
+        el.style.top = ( coords.top ) + 'px';
+        el.style.left = ( coords.left ) + 'px';
+
+        return el;
     }
 
     function movePlayer( player, direction ) {
@@ -82,7 +115,13 @@
 
     // EVENTS
     window.addEventListener( 'keyup', function( e ) {
+        console.log( e.keyCode );
+
         switch ( e.keyCode ) {
+            case 32: /// SPACE
+                placeBomb();
+
+                break;
             case 37:
                 console.log( 'MOVE LEFT' ); /// TEMP
                 movePlayer( player, 'left' );
