@@ -71,7 +71,10 @@
             // Create new 'bomb' elem. and add to document.
             var playerCoords =  getPlayerLocation();
             var bombElem = buildBombElement( playerCoords );
+
             gridElem.appendChild( bombElem );
+
+            armBomb( bombElem );
 
             /// TODO[@jrmykolyn]
             // - Update `gridData`.
@@ -80,6 +83,7 @@
             updateInventory( 'bombs', -1 );
         }
     }
+
 
     function buildBombElement( coords ) {
         var el = document.createElement( 'div' );
@@ -90,6 +94,14 @@
 
         return el;
     }
+
+
+    function armBomb( bombElem ) {
+        setTimeout( function() {
+            console.log( 'BOOM!' );
+        }, 1000 );
+    } // /armBomb()
+
 
     function movePlayer( player, direction ) {
         var prop = null;
