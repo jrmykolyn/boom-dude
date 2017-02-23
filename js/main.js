@@ -138,7 +138,7 @@
         if ( newVal >= 0 && newVal < maxVal ) {
             player.style[ prop ] = newVal + 'px';
 
-            // Upgdate position within `gridData`:
+            // Update position within `gridData`:
             playerPosNew = playerPos.slice( 0 );
 
             if ( moveDir === 'v' ) {
