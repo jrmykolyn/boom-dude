@@ -1,9 +1,14 @@
-( function( window, document ) {
+var Grid = require( './grid' );
 
+( function( window, document ) {
+    // --------------------------------------------------
     // DECLARE VARS
+    // --------------------------------------------------
     var player = document.getElementsByClassName( 'player' )[ 0 ];
     var gridElem = document.getElementsByClassName( 'grid' )[ 0 ];
-    var gridData = makeArr( 5, makeArr( 5, null ) );
+
+    var grid = new Grid( { count: 5, defaultValue: null } );
+
     var playerPos = [ 0, 0 ];
     var playerPosNew = [];
 
@@ -11,23 +16,12 @@
         bombs: 3
     };
 
-    gridData[ playerPos[ 0 ] ][ playerPos[ 1 ] ] = 1;
+    grid.update( 1, playerPos );
 
+
+    // --------------------------------------------------
     // DECLARE FUNCTIONS
-    function makeArr( length, value ) {
-        var arr = [];
-
-        for ( var i = 0, x = length; i < x; i++ ) {
-            if ( !Array.isArray( value ) ) {
-                arr.push( value );
-            } else {
-                arr.push( value.slice( 0 ) );
-            }
-        }
-
-        return arr;
-    }
-
+    // --------------------------------------------------
     function getPlayerLocation() {
         var output = {};
 
@@ -148,10 +142,10 @@
             }
 
             // Clear original position:
-            gridData[ playerPos[ 0 ] ][ playerPos[ 1 ] ] = null;
+            // gridData[ playerPos[ 0 ] ][ playerPos[ 1 ] ] = null;
 
             // Occupy new position:
-            gridData[ playerPosNew[ 0 ] ][ playerPosNew[ 1 ] ] = 1;
+            // gridData[ playerPosNew[ 0 ] ][ playerPosNew[ 1 ] ] = 1;
 
             playerPos = playerPosNew;
         }
