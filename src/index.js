@@ -1,5 +1,6 @@
 // Bundle JS
-require( './js/main.js' );
+require( './js/main' );
+
 
 // Migrate HTML/CSS files
 require( './index.html' );
