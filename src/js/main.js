@@ -9,7 +9,7 @@ var Player = require( './player' );
     var playerElem = document.getElementsByClassName( 'player' )[ 0 ];
     var gridElem = document.getElementsByClassName( 'grid' )[ 0 ];
 
-    var grid = new Grid( { count: 5, defaultValue: null } );
+    var grid = new Grid( { count: 10, defaultValue: null } );
     var player1 = new Player();
 
     grid.insert( player1 );
@@ -128,7 +128,7 @@ var Player = require( './player' );
         }
 
         currVal = parseInt( player.style[ prop ] ) || 0;
-        newVal = ( currVal + ( mod * 100 ) );
+        newVal = ( currVal + ( mod * 50 ) );
 
         if ( newVal >= 0 && newVal < maxVal ) {
             player.style[ prop ] = newVal + 'px';
