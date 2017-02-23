@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/jrmykolyn/boom-dude#readme",
   "devDependencies": {
+    "file-loader": "^0.10.0",
     "style-loader": "^0.13.1",
     "webpack": "^2.2.1"
   }
