@@ -36,7 +36,7 @@ Grid.prototype.update = function( value, coords ) {
     // Update grid if selected position is not occupied.
     if ( !this.grid[ coords[ 0 ] ][ coords[ 1 ] ] ) {
         this.grid[ coords[ 0 ] ][ coords[ 1 ] ] = value;
-        
+
         return true;
     }
 
@@ -49,6 +49,22 @@ Grid.prototype.update = function( value, coords ) {
 Grid.prototype.insert = function( entity ) {
     this.update( entity, [ 0, 0 ] );
 } // /insert()
+
+
+Grid.prototype.set = function( value, coords ) {
+    value = value || null;
+    coords = coords || null;
+
+    if ( !coords || !Array.isArray( coords ) ) {
+        return null;
+    }
+
+    this.grid[ coords[ 0 ] ][ coords[ 1 ] ] = value;
+
+    return true;
+} // /set()
+
+
 
 
 Grid.prototype.getPositionOf = function( identifier ) {
@@ -83,7 +99,7 @@ Grid.prototype.getPositionOf = function( identifier ) {
     } );
 
     return output;
-}
+} // /getPositionOf()
 
 
 Grid.prototype.getAdjustedPositionOf = function( identifier, direction ) {
@@ -119,21 +135,82 @@ Grid.prototype.getAdjustedPositionOf = function( identifier, direction ) {
     newPos[ targetIndex ] = ( pos[ targetIndex ] + mod );
 
     return newPos;
-}
+} // /getAdjustedPositionOf()
+
+
+Grid.prototype.moveEntity = function( entity, direction ) {
+    entity = entity || null;
+    direction = direction || null;
+
+    console.log( 'VALIDATE ENTITY' );
+    if ( !entity || !direction ) {
+        return null;
+    }
+
+    console.log( 'GET CURRENT POSITION OF ENTITY' );
+    var currPos = this.getPositionOf( entity.id );
+    console.log( currPos );
+
+    console.log( 'GET ADJUSTED POSITION OF ENTITY' );
+    var newPos = this.getAdjustedPositionOf( entity.id, direction );
+    console.log( newPos );
+
+    console.log( 'REMOVE CURRENT ENTITY' );
+    var removeResult = this.set( null, currPos ); /// TEMP
+    console.log( removeResult );
+
+    console.log( 'CHECK IF ADJUSTED POSITION IS VALID' );
+    if ( this.validateCoords( newPos ) ) {
+        console.log( 'VALID --> INSERT ENTITY AT NEW POSITION' );
+
+        this.set( entity, newPos );
+        return true;
+    } else {
+        console.log( 'INVALID --> INSERT ENTITY AT OLD POSITION' );
+
+        this.set( entity, currPos );
+        return false;
+    }
+} // /moveEntity()
+
+
+Grid.prototype.validateCoords = function( coords ) {
+    coords = coords || null;
+
+    var isValid = false;
+
+    if ( !coords || !Array.isArray( coords ) ) {
+        return null;
+    }
+
+    do {
+        if ( coords[ 0 ] < 0 || coords[ 1 ] < 0 ) {
+            break;
+        }
+
+        if ( coords[ 0 ] > this.getHeight() || coords[ 1 ] > this.getWidth() )  {
+            break;
+        }
+
+        isValid = true;
+    } while ( 0 );
+
+    return isValid;
+} // /validateCoords()
 
 
 Grid.prototype.getWidth = function( offset ) {
     var offset = offset || 0;
 
     return ( this.grid[ 0 ].length -1 ) + offset;
-}
+} // /getWidth()
 
 
 Grid.prototype.getHeight = function( offset ) {
     var offset = offset || 0;
 
     return ( this.grid.length -1 ) + offset;
-}
+} // /getHeight()
 
 
 // --------------------------------------------------

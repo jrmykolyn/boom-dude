@@ -6,7 +6,7 @@ var Player = require( './player' );
     // --------------------------------------------------
     // DECLARE VARS
     // --------------------------------------------------
-    var player = document.getElementsByClassName( 'player' )[ 0 ];
+    var playerElem = document.getElementsByClassName( 'player' )[ 0 ];
     var gridElem = document.getElementsByClassName( 'grid' )[ 0 ];
 
     var grid = new Grid( { count: 5, defaultValue: null } );
@@ -145,44 +145,32 @@ var Player = require( './player' );
             case 37:
                 console.log( 'MOVE LEFT' ); /// TEMP
 
-                var pos = grid.getPositionOf( player1.id );
-                var newPos = grid.getAdjustedPositionOf( player1.id, 'left' );
-
-                if ( newPos ) {
-                    movePlayer( player, 'left' );
+                if ( grid.moveEntity( player1, 'left' ) ) {
+                    movePlayer( playerElem, 'left' );
                 }
 
                 break;
             case 38:
                 console.log( 'MOVE UP' ); /// TEMP
 
-                var pos = grid.getPositionOf( player1.id );
-                var newPos = grid.getAdjustedPositionOf( player1.id, 'up' );
-
-                if ( newPos ) {
-                    movePlayer( player, 'up' );
+                if ( grid.moveEntity( player1, 'up' ) ) {
+                    movePlayer( playerElem, 'up' );
                 }
 
                 break;
             case 39:
                 console.log( 'MOVE RIGHT' ); /// TEMP
 
-                var pos = grid.getPositionOf( player1.id );
-                var newPos = grid.getAdjustedPositionOf( player1.id, 'right' );
-
-                if ( newPos ) {
-                    movePlayer( player, 'right' );
+                if ( grid.moveEntity( player1, 'right' ) ) {
+                    movePlayer( playerElem, 'right' );
                 }
 
                 break;
             case 40:
                 console.log( 'MOVE DOWN' ); /// TEMP
 
-                var pos = grid.getPositionOf( player1.id );
-                var newPos = grid.getAdjustedPositionOf( player1.id, 'down' );
-
-                if ( newPos ) {
-                    movePlayer( player, 'down' );
+                if ( grid.moveEntity( player1, 'down' ) ) {
+                    movePlayer( playerElem, 'down' );
                 }
 
                 break;
