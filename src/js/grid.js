@@ -45,6 +45,12 @@ Grid.prototype.update = function( value, coords ) {
 } // /update()
 
 
+/// TODO[@jrmykolyn] - Update function to dynamically insert `entity` in unoccupied space.
+Grid.prototype.insert = function( entity ) {
+    this.update( entity, [ 0, 0 ] );
+} // /insert()
+
+
 // --------------------------------------------------
 // PUBLIC API
 // --------------------------------------------------

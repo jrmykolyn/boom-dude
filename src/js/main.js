@@ -12,6 +12,8 @@ var Player = require( './player' );
     var grid = new Grid( { count: 5, defaultValue: null } );
     var player1 = new Player();
 
+    grid.insert( player1 );
+
     var playerPos = [ 0, 0 ];
     var playerPosNew = [];
 
@@ -19,7 +21,6 @@ var Player = require( './player' );
         bombs: 3
     };
 
-    grid.update( 1, playerPos );
 
 
     // --------------------------------------------------
