@@ -137,8 +137,6 @@ var Player = require( './player' );
 
     // EVENTS
     window.addEventListener( 'keyup', function( e ) {
-        console.log( e.keyCode );
-
         switch ( e.keyCode ) {
             case 32: /// SPACE
                 placeBomb();
@@ -146,22 +144,46 @@ var Player = require( './player' );
                 break;
             case 37:
                 console.log( 'MOVE LEFT' ); /// TEMP
-                movePlayer( player, 'left' );
+
+                var pos = grid.getPositionOf( player1.id );
+                var newPos = grid.getAdjustedPositionOf( player1.id, 'left' );
+
+                if ( newPos ) {
+                    movePlayer( player, 'left' );
+                }
 
                 break;
             case 38:
                 console.log( 'MOVE UP' ); /// TEMP
-                movePlayer( player, 'up' );
+
+                var pos = grid.getPositionOf( player1.id );
+                var newPos = grid.getAdjustedPositionOf( player1.id, 'up' );
+
+                if ( newPos ) {
+                    movePlayer( player, 'up' );
+                }
 
                 break;
             case 39:
                 console.log( 'MOVE RIGHT' ); /// TEMP
-                movePlayer( player, 'right' );
+
+                var pos = grid.getPositionOf( player1.id );
+                var newPos = grid.getAdjustedPositionOf( player1.id, 'right' );
+
+                if ( newPos ) {
+                    movePlayer( player, 'right' );
+                }
 
                 break;
             case 40:
                 console.log( 'MOVE DOWN' ); /// TEMP
-                movePlayer( player, 'down' );
+
+                var pos = grid.getPositionOf( player1.id );
+                var newPos = grid.getAdjustedPositionOf( player1.id, 'down' );
+
+                if ( newPos ) {
+                    movePlayer( player, 'down' );
+                }
 
                 break;
             default:

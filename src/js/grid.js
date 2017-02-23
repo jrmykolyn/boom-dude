@@ -86,6 +86,56 @@ Grid.prototype.getPositionOf = function( identifier ) {
 }
 
 
+Grid.prototype.getAdjustedPositionOf = function( identifier, direction ) {
+    identifier = identifier || null;
+    direction = direction || null;
+
+    var pos = this.getPositionOf( identifier );
+    var newPos = pos.slice( 0 );
+    var mod = 0;
+    var targetIndex = null;
+
+    if ( !identifier || !direction || !pos ) {
+        return null;
+    }
+
+    switch ( direction ) {
+        case 'up':
+        case 'left':
+            mod = -1;
+
+            break;
+        case 'down':
+        case 'right':
+            mod = 1;
+
+            break;
+        default:
+            // DO NO THINGS;
+    }
+
+    targetIndex = ( direction === 'up' || direction === 'down' ) ? 0 : 1;
+
+    newPos[ targetIndex ] = ( pos[ targetIndex ] + mod );
+
+    return newPos;
+}
+
+
+Grid.prototype.getWidth = function( offset ) {
+    var offset = offset || 0;
+
+    return ( this.grid[ 0 ].length -1 ) + offset;
+}
+
+
+Grid.prototype.getHeight = function( offset ) {
+    var offset = offset || 0;
+
+    return ( this.grid.length -1 ) + offset;
+}
+
+
 // --------------------------------------------------
 // PUBLIC API
 // --------------------------------------------------
