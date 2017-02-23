@@ -7,7 +7,7 @@ var Player = require( './player' );
     // DECLARE VARS
     // --------------------------------------------------
     var playerElem = document.getElementsByClassName( 'player' )[ 0 ];
-    var gridElem = document.getElementsByClassName( 'grid' )[ 0 ];
+    var gridWrapper = document.getElementById( 'gridWrapper' );
 
     var grid = new Grid( { count: 10, defaultValue: null } );
     var player1 = new Player();
@@ -18,7 +18,30 @@ var Player = require( './player' );
         bombs: 3
     };
 
+    // Build 'grid UI' - START
+    /// TODO[@jrmykolyn] - Move logic to elsewhere in controller, or into dedicated partial file.
+    var gridHTML = document.createElement( 'div' );
+    gridHTML.classList.add( 'grid' );
 
+    /// TODO[@jrmykolyn] - Build out alternative method for fetching grid height.
+    for ( var i = 0, x = ( grid.getHeight() + 1 ); i < x; i++ ) {
+        var rowHTML = document.createElement( 'div' );
+
+        rowHTML.classList.add( 'row' );
+
+        for ( var y = 0; y < x; y++ ) {
+            var spaceElem = document.createElement( 'div' );
+
+            spaceElem.classList.add( 'space' );
+
+            rowHTML.appendChild( spaceElem );
+        }
+
+        gridHTML.appendChild( rowHTML );
+    }
+
+    gridWrapper.prepend( gridHTML );
+    // Build 'grid UI' - END
 
     // --------------------------------------------------
     // DECLARE FUNCTIONS
@@ -67,7 +90,7 @@ var Player = require( './player' );
             var playerCoords =  getPlayerLocation();
             var bombElem = buildBombElement( playerCoords );
 
-            gridElem.appendChild( bombElem );
+            gridHTML.appendChild( bombElem );
 
             armBomb( bombElem );
 
@@ -111,7 +134,7 @@ var Player = require( './player' );
                 mod = -1;
             case 'down':
                 prop = 'top';
-                maxVal = gridElem.clientHeight;
+                maxVal = gridHTML.clientHeight;
                 moveDir = 'v';
 
                 break;
@@ -119,7 +142,7 @@ var Player = require( './player' );
                 mod = -1;
             case 'right':
                 prop = 'left';
-                maxVal = gridElem.clientWidth;
+                maxVal = gridHTML.clientWidth;
                 moveDir = 'h';
 
                 break;
