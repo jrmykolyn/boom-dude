@@ -51,6 +51,41 @@ Grid.prototype.insert = function( entity ) {
 } // /insert()
 
 
+Grid.prototype.getPositionOf = function( identifier ) {
+    identifier = identifier || null;
+
+    var matchedEntity = false;
+    var output = null;
+    var rowIndex = null;
+    var colIndex = null;
+
+    var _this = this;
+
+    this.grid.forEach( function( row ) {
+        rowIndex = _this.grid.indexOf( row );
+
+        row.forEach( function( col ) {
+            colIndex = _this.grid[ rowIndex ].indexOf( col );
+
+            if ( !matchedEntity ) {
+                /// TODO[@jrmykolyn] - Refactor 2x `if` statements below.
+                if ( col === identifier ) {
+                    output = [ rowIndex, colIndex ];
+                    matchedEntity = true;
+                }
+
+                if ( typeof col === 'object' && col !== null && col.id === identifier ) {
+                    output = [ rowIndex, colIndex ];
+                    matchedEntity = true;
+                }
+            }
+        } );
+    } );
+
+    return output;
+}
+
+
 // --------------------------------------------------
 // PUBLIC API
 // --------------------------------------------------
