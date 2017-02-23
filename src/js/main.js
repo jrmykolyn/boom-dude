@@ -1,4 +1,6 @@
 var Grid = require( './grid' );
+var Player = require( './player' );
+
 
 ( function( window, document ) {
     // --------------------------------------------------
@@ -8,6 +10,7 @@ var Grid = require( './grid' );
     var gridElem = document.getElementsByClassName( 'grid' )[ 0 ];
 
     var grid = new Grid( { count: 5, defaultValue: null } );
+    var player1 = new Player();
 
     var playerPos = [ 0, 0 ];
     var playerPosNew = [];
