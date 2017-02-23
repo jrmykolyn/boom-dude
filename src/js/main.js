@@ -14,9 +14,6 @@ var Player = require( './player' );
 
     grid.insert( player1 );
 
-    var playerPos = [ 0, 0 ];
-    var playerPosNew = [];
-
     var inventory = {
         bombs: 3
     };
@@ -135,23 +132,6 @@ var Player = require( './player' );
 
         if ( newVal >= 0 && newVal < maxVal ) {
             player.style[ prop ] = newVal + 'px';
-
-            // Update position within `gridData`:
-            playerPosNew = playerPos.slice( 0 );
-
-            if ( moveDir === 'v' ) {
-                playerPosNew[ 0 ] = ( mod !== -1  ) ? ( playerPos[ 0 ] + 1 ) : ( playerPos[ 0 ] - 1 );
-            } else {
-                playerPosNew[ 1 ] = ( mod !== -1  ) ? ( playerPos[ 1 ] + 1 ) : ( playerPos[ 1 ] - 1 );
-            }
-
-            // Clear original position:
-            // gridData[ playerPos[ 0 ] ][ playerPos[ 1 ] ] = null;
-
-            // Occupy new position:
-            // gridData[ playerPosNew[ 0 ] ][ playerPosNew[ 1 ] ] = 1;
-
-            playerPos = playerPosNew;
         }
     }
 
