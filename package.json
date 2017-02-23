@@ -1,0 +1,23 @@
+{
+  "name": "boom-dude",
+  "version": "0.0.0",
+  "description": "'Boom Dude' is a browser-based tribute to a classic game franchise, reimagined in JS.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jrmykolyn/boom-dude.git"
+  },
+  "keywords": [
+    "Boom",
+    "Dude"
+  ],
+  "author": "Jesse R Mykolyn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jrmykolyn/boom-dude/issues"
+  },
+  "homepage": "https://github.com/jrmykolyn/boom-dude#readme"
+}
