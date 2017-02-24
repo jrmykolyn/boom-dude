@@ -1,5 +1,6 @@
 var Grid = require( './grid' );
 var Player = require( './player' );
+var Terrain = require( './terrain' );
 
 
 ( function( window, document ) {
@@ -8,11 +9,18 @@ var Player = require( './player' );
     // --------------------------------------------------
     var playerElem = document.getElementsByClassName( 'player' )[ 0 ];
     var gridWrapper = document.getElementById( 'gridWrapper' );
+    var terrainWrapper = document.getElementById( 'terrainWrapper' );
 
     var grid = new Grid( { count: 10, defaultValue: null } );
     var player1 = new Player();
 
-    grid.insert( player1 );
+    grid.set( player1, [ 0, 0 ] );
+
+    // Inject 'Terrain' instances into `grid`.
+    for ( var i = 0, x = 10; i < x; i++ ) {
+        var t = new Terrain();
+        grid.insert( t );
+    }
 
     var inventory = {
         bombs: 3
@@ -30,11 +38,12 @@ var Player = require( './player' );
         rowHTML.classList.add( 'row' );
 
         for ( var j = 0; j < x; j++ ) {
-            var spaceElem = document.createElement( 'div' );
+            var cellHTML = document.createElement( 'div' );
 
-            spaceElem.classList.add( 'space' );
+            cellHTML.classList.add( 'cell' );
+            cellHTML.classList.add( 'tile' );
 
-            rowHTML.appendChild( spaceElem );
+            rowHTML.appendChild( cellHTML );
         }
 
         gridHTML.appendChild( rowHTML );
@@ -42,6 +51,40 @@ var Player = require( './player' );
 
     gridWrapper.prepend( gridHTML );
     // Build 'grid UI' - END
+
+
+    // Build 'grid terrain' - START
+    /// TODO[@jrmykolyn] - Move logic to elsewhere in controller, or into dedicated partial file.
+    var terrainGridHTML = document.createElement( 'div' );
+    terrainGridHTML.classList.add( 'grid' );
+
+    /// TODO[@jrmykolyn] - Build out alternative method for fetching grid height.
+    for ( var i = 0, x = ( grid.getHeight() + 1 ); i < x; i++ ) {
+        var rowHTML = document.createElement( 'div' );
+
+        rowHTML.classList.add( 'row' );
+
+        for ( var j = 0; j < x; j++ ) {
+            var cellHTML = document.createElement( 'div' );
+
+            cellHTML.classList.add( 'cell' );
+
+            var coords = [ i, j ];
+            var currEntity = grid.getEntityAtCoords( coords );
+
+            if ( currEntity && currEntity instanceof Terrain ) {
+                cellHTML.classList.add( 'terrain' );
+            }
+
+            rowHTML.append( cellHTML );
+        }
+
+        terrainGridHTML.appendChild( rowHTML );
+    }
+
+    terrainWrapper.prepend( terrainGridHTML );
+
+    // Build 'grid terrain' - START
 
     // --------------------------------------------------
     // DECLARE FUNCTIONS

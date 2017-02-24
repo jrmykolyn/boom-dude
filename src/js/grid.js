@@ -45,9 +45,19 @@ Grid.prototype.update = function( value, coords ) {
 } // /update()
 
 
+Grid.prototype.getRandomCoords = function() {
+    var coords = [];
+
+    coords[ 0 ] = Math.round( Math.random() * this.getHeight() );
+    coords[ 1 ] = Math.round( Math.random() * this.getWidth() );
+
+    return coords;
+}
+
+
 /// TODO[@jrmykolyn] - Update function to dynamically insert `entity` in unoccupied space.
 Grid.prototype.insert = function( entity ) {
-    this.update( entity, [ 0, 0 ] );
+    this.update( entity, this.getRandomCoords() );
 } // /insert()
 
 
@@ -211,6 +221,15 @@ Grid.prototype.getHeight = function( offset ) {
 
     return ( this.grid.length -1 ) + offset;
 } // /getHeight()
+
+
+Grid.prototype.getEntityAtCoords = function( coords ) {
+    coords = coords || null;
+
+    if ( !coords || !Array.isArray( coords ) || coords.length < 2 ) { return null; }
+
+    return this.grid[ coords[ 0 ] ][ coords[ 1 ] ];
+}
 
 
 // --------------------------------------------------

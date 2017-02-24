@@ -77,7 +77,7 @@ main {
 }
 
 
-#gridWrapper {
+#stage {
     width: 500px;
     height: 500px;
     display: block;
@@ -85,6 +85,16 @@ main {
     box-shadow: 0px 3px 20px -5px rgba( 0,0,0,0.15 );
     margin: 0 auto;
     position: relative;
+}
+
+
+#gridWrapper,
+#terrainWrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 
@@ -104,18 +114,24 @@ main {
 }
 
 
-.row:nth-child( even ) .space:nth-child( 2n ),
-.row:nth-child( odd ) .space:nth-child( 2n - 1 ) {
+.row:nth-child( even ) .tile:nth-child( 2n ),
+.row:nth-child( odd ) .tile:nth-child( 2n - 1 ) {
     background-color: #BABABA;
 }
 
 
-.space {
+.cell {
     width: 10%;
     height: 100%;
     display: block;
     float: left;
 }
+
+
+.terrain {
+    background-color: blue;
+}
+
 
 .player {
     width: 50px;
