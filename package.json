@@ -21,11 +21,13 @@
   },
   "homepage": "https://github.com/jrmykolyn/boom-dude#readme",
   "devDependencies": {
+    "bourbon": "^4.3.3",
     "css-loader": "^0.26.2",
     "extract-text-webpack-plugin": "^2.0.0",
     "file-loader": "^0.10.0",
     "node-sass": "^4.5.0",
     "sass-loader": "^6.0.2",
+    "sfco-sass-utils": "^1.18.1",
     "style-loader": "^0.13.1",
     "webpack": "^2.2.1"
   }
