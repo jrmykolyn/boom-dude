@@ -235,6 +235,35 @@ var Terrain = require( './terrain' );
     }
 
     // EVENTS
+    window.addEventListener( 'BD_BOOM', function( e ) {
+        /// TODO[@jrmykolyn]
+        // - Validate presence of `coords` on `e.data`.
+        // - Get adjacent coords.
+        // - Check for presence of entities at adjacent coords.
+        // - Remove entities (if applicable).
+
+        console.log( 'INSIDE `BD_BOOM` EVENT HANDLER' ); /// TEMP
+
+        console.log( 'LOGGING `e.data.coords`' ); /// TEMP
+        console.log( e.data.coords ); /// TEMP
+
+        /// TEMP
+        var upCoords = bombGrid.adjustCoords( e.data.coords.slice(), 'up' );
+        var rightCoords = bombGrid.adjustCoords( e.data.coords.slice(), 'right' );
+        var downCoords = bombGrid.adjustCoords( e.data.coords.slice(), 'down' );
+        var leftCoords = bombGrid.adjustCoords( e.data.coords.slice(), 'left' );
+
+        /// TEMP - Arr of 'bomb' coords, plus adjacent coords.
+        coordsArr = [ e.data.coords.slice(), upCoords, rightCoords, downCoords, leftCoords ];
+
+        /// TEMP
+        coordsArr.forEach( function( coords ) {
+            console.log( 'CHECKING FOR ENTITY AT COORDS:', coords );
+            console.log( grid.getEntityAtCoords( coords ) );
+        } );
+    } );
+
+
     window.addEventListener( 'keyup', function( e ) {
         switch ( e.keyCode ) {
             case 32: /// SPACE
@@ -242,8 +271,10 @@ var Terrain = require( './terrain' );
                     var bomb = player1.getBomb();
                     var pos = grid.getPositionOf( player1.id );
 
+                    // Add `bomb` to `bombGrid`.
                     bombGrid.set( bomb, pos );
 
+                    // Build and insert `bomb` HTML.
                     var cellElem = bombGridHTML.querySelectorAll( '[data-row="' + pos[ 0 ] + '"][data-col="' + pos[ 1 ] + '"]' )[ 0 ];
                     var bombElem = document.createElement( 'div' );
 
@@ -252,9 +283,11 @@ var Terrain = require( './terrain' );
 
                     cellElem.appendChild( bombElem );
 
+                    // Start `bomb` countdown.
                     bomb.arm();
 
-                    console.log( bombGrid );
+                    /// TODO[@jrmykolyn] - Figure out more elegant way to inject this info. Shouldn't be separate step.
+                    bomb.set( 'coords', pos );
                 }
 
                 break;
