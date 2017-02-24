@@ -10,17 +10,48 @@ function Bomb() {
 
 Bomb.prototype.arm = function( options ) {
     options = options || {};
-    
+
     var _this = this;
 
     setTimeout( function() {
-        var el = document.querySelectorAll( '[data-id="' + _this.id + '"]' )[ 0 ];
-
-        if ( el ) { el.parentNode.removeChild( el ); }
+        _emitBoomEvent( { coords: _this.get( 'coords' ) } );
+        _removeBombHTML( _this.id );
     }, options.timer || 2000 );
 
     return true;
 } // /arm()
+
+
+Bomb.prototype.set = function( key, value ) {
+    this[ key ] = value;
+} // /set()
+
+
+Bomb.prototype.get = function( key ) {
+    return this[ key ] || null;
+} // /get()
+
+
+// --------------------------------------------------
+// PRIVATE FUNCTIONS
+// --------------------------------------------------
+function _emitBoomEvent( data ) {
+    data = data || {};
+
+    var e = new Event( 'BD_BOOM' );
+
+    e.data = data;
+
+    window.dispatchEvent( e );
+}
+
+
+function _removeBombHTML( id ) {
+    id = id || 0;
+
+    var el = document.querySelectorAll( '[data-id="' + id + '"]' )[ 0 ];
+    if ( el ) { el.parentNode.removeChild( el ); }
+}
 
 
 // --------------------------------------------------
