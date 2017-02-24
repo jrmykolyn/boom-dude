@@ -10,9 +10,13 @@ var Terrain = require( './terrain' );
     var playerElem = document.getElementsByClassName( 'player' )[ 0 ];
     var gridWrapper = document.getElementById( 'gridWrapper' );
     var terrainWrapper = document.getElementById( 'terrainWrapper' );
+    var bombWrapper = document.getElementById( 'bombWrapper' );
 
+    var player1 = new Player()
     var grid = new Grid( { count: 10, defaultValue: null } );
-    var player1 = new Player();
+    var bombGrid = new Grid( { count: 10, defaultValue: null } );
+
+    console.log( player1 );
 
     grid.set( player1, [ 0, 0 ] );
 
@@ -83,8 +87,35 @@ var Terrain = require( './terrain' );
     }
 
     terrainWrapper.prepend( terrainGridHTML );
-
     // Build 'grid terrain' - START
+
+
+    // Build 'bomb grid' - START
+    /// TODO[@jrmykolyn] - Move logic to elsewhere in controller, or into dedicated partial file.
+    var bombGridHTML = document.createElement( 'div' );
+    bombGridHTML.classList.add( 'grid' );
+
+    /// TODO[@jrmykolyn] - Build out alternative method for fetching grid height.
+    for ( var i = 0, x = ( grid.getHeight() + 1 ); i < x; i++ ) {
+        var rowHTML = document.createElement( 'div' );
+
+        rowHTML.classList.add( 'row' );
+
+        for ( var j = 0; j < x; j++ ) {
+            var cellHTML = document.createElement( 'div' );
+
+            cellHTML.classList.add( 'cell' );
+            cellHTML.setAttribute( 'data-row', i );
+            cellHTML.setAttribute( 'data-col', j );
+
+            rowHTML.append( cellHTML );
+        }
+
+        bombGridHTML.appendChild( rowHTML );
+    }
+
+    bombWrapper.prepend( bombGridHTML );
+    // Build 'bomb grid' - START
 
     // --------------------------------------------------
     // DECLARE FUNCTIONS
@@ -128,6 +159,8 @@ var Terrain = require( './terrain' );
 
 
     function placeBomb() {
+        console.log( 'INSIDE `placeBomb()`' );
+
         if ( getInventory( 'bombs' ) ) {
             // Create new 'bomb' elem. and add to document.
             var playerCoords =  getPlayerLocation();
@@ -205,7 +238,24 @@ var Terrain = require( './terrain' );
     window.addEventListener( 'keyup', function( e ) {
         switch ( e.keyCode ) {
             case 32: /// SPACE
-                placeBomb();
+                if ( player1.hasInventory( 'bombs' ) ) {
+                    var bomb = player1.getBomb();
+                    var pos = grid.getPositionOf( player1.id );
+
+                    bombGrid.set( bomb, pos );
+
+                    var cellElem = bombGridHTML.querySelectorAll( '[data-row="' + pos[ 0 ] + '"][data-col="' + pos[ 1 ] + '"]' )[ 0 ];
+                    var bombElem = document.createElement( 'div' );
+
+                    bombElem.classList.add( 'bomb' );
+                    bombElem.setAttribute( 'data-id', bomb.id );
+
+                    cellElem.appendChild( bombElem );
+
+                    bomb.arm();
+
+                    console.log( bombGrid );
+                }
 
                 break;
             case 37:

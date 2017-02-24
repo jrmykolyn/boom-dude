@@ -67,13 +67,15 @@ main {
 }
 
 .bomb {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     display: block;
     background-color: red;
     border-radius: 50%;
     position: absolute;
-    transform: scale( 0.5 );
+    top: 50%;
+    left: 50%;
+    transform: translate( -50%, -50% ) scale( 0.5 );
 }
 
 
@@ -89,7 +91,8 @@ main {
 
 
 #gridWrapper,
-#terrainWrapper {
+#terrainWrapper,
+#bombWrapper {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -125,6 +128,7 @@ main {
     height: 100%;
     display: block;
     float: left;
+    position: relative;
 }
 
 
