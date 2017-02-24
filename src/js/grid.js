@@ -148,6 +148,41 @@ Grid.prototype.getAdjustedPositionOf = function( identifier, direction ) {
 } // /getAdjustedPositionOf()
 
 
+Grid.prototype.adjustCoords = function( coords, direction ) {
+    coords = coords || null;
+    direction = direction || null;
+
+    var mod = 0;
+    var targetIndex = null;
+
+    if ( !coords || !Array.isArray( coords ) || !direction ) {
+        return null;
+    }
+
+    switch ( direction ) {
+        case 'up':
+        case 'left':
+            mod = -1;
+
+            break;
+        case 'down':
+        case 'right':
+            mod = 1;
+
+            break;
+        default:
+            // DO NO THINGS;
+    }
+
+    targetIndex = ( direction === 'up' || direction === 'down' ) ? 0 : 1;
+
+    newCoords = coords.slice( 0 );
+    newCoords[ targetIndex ] = ( newCoords[ targetIndex ] + mod );
+
+    return newCoords;
+}
+
+
 Grid.prototype.moveEntity = function( entity, direction ) {
     entity = entity || null;
     direction = direction || null;
@@ -226,10 +261,19 @@ Grid.prototype.getHeight = function( offset ) {
 Grid.prototype.getEntityAtCoords = function( coords ) {
     coords = coords || null;
 
-    if ( !coords || !Array.isArray( coords ) || coords.length < 2 ) { return null; }
+    // Validate presence/type of args.
+    if ( !coords || !Array.isArray( coords ) || coords.length < 2 ) {
+        return null;
+    }
+
+    // Ensure that `coords` fall within `grid`.
+    if ( !this.validateCoords( coords ) ) {
+        console.log( '`coords` ARE INVALID' ); /// TEMP
+        return null;
+    }
 
     return this.grid[ coords[ 0 ] ][ coords[ 1 ] ];
-}
+} // /getEntityAtCoords()
 
 
 // --------------------------------------------------
