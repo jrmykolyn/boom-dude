@@ -1,7 +1,8 @@
 // Bundle JS
 require( './js/main' );
 
+// Extract Styles
+require( './styles/styles.scss' );
 
-// Migrate HTML/CSS files
+// Migrate HTML files
 require( './index.html' );
-require( './css/styles.css' );
