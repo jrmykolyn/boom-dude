@@ -169,14 +169,14 @@ Grid.prototype.moveEntity = function( entity, direction ) {
     var removeResult = this.set( null, currPos ); /// TEMP
     console.log( removeResult );
 
-    console.log( 'CHECK IF ADJUSTED POSITION IS VALID' );
-    if ( this.validateCoords( newPos ) ) {
-        console.log( 'VALID --> INSERT ENTITY AT NEW POSITION' );
+    console.log( 'CHECK IF ADJUSTED POSITION: IS VALID; IS NOT OCCUPIED' );
+    if ( this.validateCoords( newPos ) && !this.getEntityAtCoords( newPos ) ) {
+        console.log( 'VALID AND UNOCCUPIED --> INSERT ENTITY AT NEW POSITION' );
 
         this.set( entity, newPos );
         return true;
     } else {
-        console.log( 'INVALID --> INSERT ENTITY AT OLD POSITION' );
+        console.log( 'INVALID OR OCCUPIED --> INSERT ENTITY AT OLD POSITION' );
 
         this.set( entity, currPos );
         return false;
