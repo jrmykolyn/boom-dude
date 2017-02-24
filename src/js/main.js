@@ -29,7 +29,7 @@ var Player = require( './player' );
 
         rowHTML.classList.add( 'row' );
 
-        for ( var y = 0; y < x; y++ ) {
+        for ( var j = 0; j < x; j++ ) {
             var spaceElem = document.createElement( 'div' );
 
             spaceElem.classList.add( 'space' );
