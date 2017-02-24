@@ -82,6 +82,8 @@ main {
 }
 
 .bomb {
+    @include position( relative );
+
     width: 100%;
     height: 100%;
     display: block;
@@ -90,7 +92,26 @@ main {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate( -50%, -50% ) scale( 0.5 );
+    transform: translate( -50%, -50% );
+    overflow: visible;
+
+    &.boom {
+        @include pseudo( before after ) {
+            @include position( absolute, 50% null null 50% );
+            @include transform( translate( -50%, -50% ) );
+
+            content: '';
+            display: block;
+            background-color: rgba( 255,0,0,0.8 );
+        }
+        
+        @include pseudo( before ) {
+            @include dims( 300% 100% );
+        }
+        @include pseudo( after ) {
+            @include dims( 100% 300% );
+        }
+    }
 }
 
 
@@ -126,9 +147,11 @@ main {
 
 
 .row {
+    @include clearfix;
+
     width: 100%;
     display: flex;
-    overflow: auto;
+    overflow: visible;
 }
 
 
