@@ -15,7 +15,7 @@ Bomb.prototype.arm = function( options ) {
 
     setTimeout( function() {
         _emitBoomEvent( { coords: _this.get( 'coords' ) } );
-        _removeBombHTML( _this.id );
+        _paintBombExplosion( _this.id );
     }, options.timer || 2000 );
 
     return true;
@@ -46,7 +46,21 @@ function _emitBoomEvent( data ) {
 }
 
 
-function _removeBombHTML( id ) {
+function _paintBombExplosion( id ) {
+    id = id || 0;
+
+    var el = document.querySelectorAll( '[data-id="' + id + '"]' )[ 0 ];
+    if ( el ) {
+        el.classList.add( 'boom' );
+
+        setTimeout( function() {
+            _removeBombNode( id );
+        }, 1000 );
+    }
+}
+
+
+function _removeBombNode( id ) {
     id = id || 0;
 
     var el = document.querySelectorAll( '[data-id="' + id + '"]' )[ 0 ];
