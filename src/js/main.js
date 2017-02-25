@@ -31,8 +31,11 @@ var View = require( './view' );
     grid.set( player1, [ 0, 0 ] );
 
     // Inject 'Terrain' instances into `grid`.
-    for ( var i = 0, x = 10; i < x; i++ ) {
-        var t = new Terrain();
+    for ( var i = 0, x = 30; i < x; i++ ) {
+        var options = {};
+        options.indestructible = !!( Math.round( Math.random() ) );
+
+        var t = new Terrain( options );
         grid.insert( t );
     }
 
@@ -94,6 +97,11 @@ var View = require( './view' );
 
             if ( currEntity && currEntity instanceof Terrain ) {
                 cellHTML.classList.add( 'terrain' );
+
+                // If the current entity *IS* indestructible, add a supplementary class.
+                if ( currEntity.indestructible ) {
+                    cellHTML.classList.add( 'indestructible' );
+                }
             }
 
             rowHTML.append( cellHTML );

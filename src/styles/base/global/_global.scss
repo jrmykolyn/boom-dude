@@ -208,7 +208,7 @@ main {
 
 .row:nth-child( even ) .tile:nth-child( 2n ),
 .row:nth-child( odd ) .tile:nth-child( 2n - 1 ) {
-    background-color: #BABABA;
+    background-color: #DADADA;
 }
 
 
@@ -222,7 +222,11 @@ main {
 
 
 .terrain {
-    background-color: blue;
+    background-color: tan;
+
+    &.indestructible {
+        background-color: saddlebrown;
+    }
 }
 
 
