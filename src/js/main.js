@@ -7,17 +7,20 @@ var Terrain = require( './terrain' );
     // --------------------------------------------------
     // DECLARE VARS
     // --------------------------------------------------
-    var gameOver = false;
-    var playerElem = document.getElementsByClassName( 'player' )[ 0 ];
-    var gridWrapper = document.getElementById( 'gridWrapper' );
-    var terrainWrapper = document.getElementById( 'terrainWrapper' );
-    var bombWrapper = document.getElementById( 'bombWrapper' );
+    // 'Game' entity:
+    var game = {}
 
+    game.state = {};
+    game.state.isOver = false;
+
+    game.players = [];
+
+    // 'Player' entities.
     var player1 = new Player()
+
+    // 'Grid' entities.
     var grid = new Grid( { count: 10, defaultValue: null } );
     var bombGrid = new Grid( { count: 10, defaultValue: null } );
-
-    console.log( player1 );
 
     grid.set( player1, [ 0, 0 ] );
 
@@ -30,6 +33,12 @@ var Terrain = require( './terrain' );
     var inventory = {
         bombs: 3
     };
+
+    // Build HTML
+    var playerElem = document.getElementsByClassName( 'player' )[ 0 ];
+    var gridWrapper = document.getElementById( 'gridWrapper' );
+    var terrainWrapper = document.getElementById( 'terrainWrapper' );
+    var bombWrapper = document.getElementById( 'bombWrapper' );
 
     // Build 'grid UI' - START
     /// TODO[@jrmykolyn] - Move logic to elsewhere in controller, or into dedicated partial file.
@@ -281,7 +290,7 @@ var Terrain = require( './terrain' );
 
 
     window.addEventListener( 'keyup', function( e ) {
-        if ( !gameOver ) {
+        if ( !game.state.isOver ) {
             switch ( e.keyCode ) {
                 case 32: /// SPACE
                     if ( player1.hasInventory( 'bombs' ) ) {
