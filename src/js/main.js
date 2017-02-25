@@ -177,6 +177,16 @@ var View = require( './view' );
     // --------------------------------------------------
     // EVENTS
     // --------------------------------------------------
+    window.addEventListener( 'BD_PLAYER_FETCHED_BOMB', function( e ) {
+        console.log( 'INSIDE `BD_PLAYER_FETCHED_BOMB` EVENT HANDLER' ); /// TEMP
+
+        console.log( 'LOGGING `e.data`' ); /// TEMP
+        console.log( e.data ); /// TEMP
+
+        view.removePlayerElem( e.data, 'bomb' );
+    } ); // /BD_PLAYER_FETCHED_BOMB
+
+
     window.addEventListener( 'BD_PLAYER_DIED', function( e ) {
         console.log( 'INSIDE `BD_PLAYER_DIED` EVENT HANDLER' ); /// TEMP
 

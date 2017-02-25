@@ -34,6 +34,7 @@ View.prototype.buildPlayerUI = function( player ) {
     // ...
     var livesSection = document.createElement( 'ul' );
     livesSection.classList.add( 'ui-section--lives' );
+    livesSection.setAttribute( 'data-section-type', 'life' );
 
     // ...
     for ( var i = 0, x = player.lives; i < x; i++ ) {
@@ -55,6 +56,7 @@ View.prototype.buildPlayerUI = function( player ) {
     // ...
     var bombsSection = document.createElement( 'ul' );
     bombsSection.classList.add( 'ui-section--inventory' );
+    bombsSection.setAttribute( 'data-section-type', 'bomb' );
 
     // ...
     for ( var i = 0, x = player.lives; i < x; i++ ) {
@@ -78,6 +80,18 @@ View.prototype.buildPlayerUI = function( player ) {
 
     this.targetNode.appendChild( playerSection );
 } // /buildPlayerUI()
+
+
+View.prototype.removePlayerElem = function( player, elem ) {
+    if ( !player || !player instanceof Player || !elem ) {
+        return null;
+    }
+
+    var playerSection = document.querySelector( '.player-ui[data-id="' + player.id + '"]' );
+    var uiSection = playerSection.querySelector( '[data-section-type="' + elem + '"]');
+
+    uiSection.removeChild( uiSection.lastChild );
+} // /removePlayerElem()
 
 
 // --------------------------------------------------

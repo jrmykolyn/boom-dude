@@ -25,7 +25,10 @@ Player.prototype.hasInventory = function( key ) {
 
 
 Player.prototype.getBomb = function() {
+    _emitPlayerFetchedBomb( this );
+
     return this.inventory.bombs.pop();
+
 }
 
 
@@ -49,7 +52,18 @@ function _emitPlayerDied( data ) {
     e.data = data;
 
     window.dispatchEvent( e );
-}
+} // /_emitPlayerDied()
+
+
+function _emitPlayerFetchedBomb( data ) {
+    data = data || {};
+
+    var e = new Event( 'BD_PLAYER_FETCHED_BOMB' );
+
+    e.data = data;
+
+    window.dispatchEvent( e );
+} // /_emitPlayerFetchedBomb()
 
 
 // --------------------------------------------------
