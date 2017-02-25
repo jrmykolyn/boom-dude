@@ -284,26 +284,19 @@ var View = require( './view' );
             switch ( e.keyCode ) {
                 case 32: /// SPACE
                     if ( player1.hasInventory( 'bombs' ) ) {
-                        var bomb = player1.getBomb();
                         var pos = grid.getPositionOf( player1.id );
+                        var bomb = player1.fetchBomb( { coords: pos } );
 
                         // Add `bomb` to `bombGrid`.
                         bombGrid.set( bomb, pos );
 
-                        // Build and insert `bomb` HTML.
-                        var cellElem = bombGridHTML.querySelectorAll( '[data-row="' + pos[ 0 ] + '"][data-col="' + pos[ 1 ] + '"]' )[ 0 ];
-                        var bombElem = document.createElement( 'div' );
-
-                        bombElem.classList.add( 'bomb' );
-                        bombElem.setAttribute( 'data-id', bomb.id );
-
-                        cellElem.appendChild( bombElem );
-
                         // Start `bomb` countdown.
                         bomb.arm();
 
-                        /// TODO[@jrmykolyn] - Figure out more elegant way to inject this info. Shouldn't be separate step.
-                        bomb.set( 'coords', pos );
+                        // Build and insert `bomb` HTML.
+                        var cellElem = bombGridHTML.querySelector( '[data-row="' + pos[ 0 ] + '"][data-col="' + pos[ 1 ] + '"]' );
+
+                        cellElem.appendChild( bomb.node );
                     }
 
                     break;

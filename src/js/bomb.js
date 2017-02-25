@@ -3,6 +3,7 @@
 // --------------------------------------------------
 function Bomb() {
     this.id = ( Math.floor( Math.random() * 1000000 ) + '' ).substring( 0, 5 );
+    this.node = _buildBombNode( { id: this.id } );
 
     return this;
 } // /Bomb()
@@ -65,6 +66,19 @@ function _removeBombNode( id ) {
 
     var el = document.querySelectorAll( '[data-id="' + id + '"]' )[ 0 ];
     if ( el ) { el.parentNode.removeChild( el ); }
+}
+
+
+// --------------------------------------------------
+// PRIVATE FUNCTIONS
+// --------------------------------------------------
+function _buildBombNode( options ) {
+    var node  = document.createElement( 'div' );
+
+    node.classList.add( 'bomb' );
+    node.setAttribute( 'data-id', options.id );
+
+    return node;
 }
 
 

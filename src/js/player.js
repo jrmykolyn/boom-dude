@@ -37,11 +37,16 @@ Player.prototype.hasInventory = function( key ) {
 }
 
 
-Player.prototype.getBomb = function() {
+Player.prototype.fetchBomb = function( options ) {
+    options = options || {};
+
     _emitPlayerFetchedBomb( this );
 
-    return this.inventory.bombs.pop();
+    var bomb = this.inventory.bombs.pop();
 
+    bomb.set( 'coords', options.coords || null );
+
+    return bomb
 }
 
 
