@@ -1,6 +1,7 @@
 var Grid = require( './grid' );
 var Player = require( './player' );
 var Terrain = require( './terrain' );
+var View = require( './view' );
 
 
 ( function( window, document ) {
@@ -16,7 +17,12 @@ var Terrain = require( './terrain' );
     game.players = [];
 
     // 'Player' entities.
-    var player1 = new Player()
+    var player1 = new Player();
+    game.players.push( player1 );
+
+    // 'View' entity.
+    var view = new View( { targetId: 'uiWrapper' } );
+    view.buildPlayerUI( player1 );
 
     // 'Grid' entities.
     var grid = new Grid( { count: 10, defaultValue: null } );
