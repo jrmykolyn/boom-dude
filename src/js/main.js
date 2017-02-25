@@ -175,6 +175,16 @@ var View = require( './view' );
 
 
     // --------------------------------------------------
+    // PRIVATE FUNCTIONS
+    // --------------------------------------------------
+    /// TODO[@jrmykolyn] - Move function into `Game` entity/class.
+    function _emitGameOver() {
+        var e = new Event( 'BD_GAME_OVER' );
+        window.dispatchEvent( e );
+    }
+
+
+    // --------------------------------------------------
     // EVENTS
     // --------------------------------------------------
     window.addEventListener( 'BD_PLAYER_FETCHED_BOMB', function( e ) {
@@ -190,7 +200,14 @@ var View = require( './view' );
     window.addEventListener( 'BD_PLAYER_LOST', function( e ) {
         console.log( 'GAME OVER FOR PLAYER: ', e.data.id ); /// TEMP
 
+        _emitGameOver();
+    } ); // /BD_PLAYER_LOST
+
+
+    window.addEventListener( 'BD_GAME_OVER', function( e ) {
         game.state.isOver = true;
+
+        view.setOverlayState( true );
     } ); // /BD_PLAYER_LOST
 
 

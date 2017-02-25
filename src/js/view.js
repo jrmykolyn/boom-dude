@@ -94,6 +94,19 @@ View.prototype.removePlayerElem = function( player, elem ) {
 } // /removePlayerElem()
 
 
+View.prototype.setOverlayState = function( isActive ) {
+    isActive = ( isActive && typeof isActive === 'boolean' );
+
+    var overlayElem = document.getElementById( 'overlay' );
+
+    if ( isActive ) {
+        overlayElem.classList.add( 'is-active' );
+    } else {
+        overlayElem.classList.remove( 'is-active' );
+    }
+} // /applyOverlay()
+
+
 // --------------------------------------------------
 // PUBLIC API
 // --------------------------------------------------
