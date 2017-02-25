@@ -10,6 +10,7 @@ var Bomb = require( './bomb' );
 function Player( options ) {
     this.id = ( Math.floor( Math.random() * 1000000 ) + '' ).substring( 0, 5 );
     this.inventory = {};
+    this.lives = 3; /// TEMP
 
     /// TODO[@jrmykolyn] - Make this... better.
     this.inventory.bombs = [ new Bomb(), new Bomb(), new Bomb() ];
@@ -29,6 +30,10 @@ Player.prototype.getBomb = function() {
 
 
 Player.prototype.kill = function() {
+    this.lives--;
+
+    console.log( 'PLAYER ' + this.id + ' HAS X LIVES REMAINING: ', this.lives ); // TEMP
+
     _emitPlayerDied( this );
 }
 
