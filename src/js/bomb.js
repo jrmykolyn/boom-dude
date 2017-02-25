@@ -17,7 +17,7 @@ Bomb.prototype.arm = function( options ) {
     setTimeout( function() {
         _emitBoomEvent( { coords: _this.get( 'coords' ) } );
         _paintBombExplosion( _this.id );
-    }, options.timer || 2000 );
+    }, options.timer || 1000 );
 
     return true;
 } // /arm()
@@ -56,7 +56,7 @@ function _paintBombExplosion( id ) {
 
         setTimeout( function() {
             _removeBombNode( id );
-        }, 1000 );
+        }, 500 );
     }
 }
 
