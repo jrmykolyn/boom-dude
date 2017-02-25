@@ -28,6 +28,25 @@ Player.prototype.getBomb = function() {
 }
 
 
+Player.prototype.kill = function() {
+    _emitPlayerDied( this );
+}
+
+
+// --------------------------------------------------
+// PRIVATE FUNCTIONS
+// --------------------------------------------------
+function _emitPlayerDied( data ) {
+    data = data || {};
+
+    var e = new Event( 'BD_PLAYER_DIED' );
+
+    e.data = data;
+
+    window.dispatchEvent( e );
+}
+
+
 // --------------------------------------------------
 // PUBLIC API
 // --------------------------------------------------
