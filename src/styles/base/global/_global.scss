@@ -246,7 +246,7 @@ main {
     position: absolute;
     top: 0;
     left: 0;
-    transition: top 0.125s, left 0.125s;
+    transition: top 0.1s, left 0.1s;
     z-index: 999;
 
     &[data-num="1"] {
