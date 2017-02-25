@@ -5,10 +5,23 @@ var Bomb = require( './bomb' );
 
 
 // --------------------------------------------------
+// DECLARE VARS
+// --------------------------------------------------
+var _private = {
+    totalPlayers: 0
+};
+
+
+// --------------------------------------------------
 // DECLARE FUNCTIONS
 // --------------------------------------------------
 function Player( options ) {
+    _private.totalPlayers++;
+
     this.id = ( Math.floor( Math.random() * 1000000 ) + '' ).substring( 0, 5 );
+    this.num = _private.totalPlayers;
+    this.node = _buildPlayerNode( { id: this.id, num: this.num } );
+
     this.inventory = {};
     this.lives = 3; /// TEMP
 
@@ -46,6 +59,16 @@ Player.prototype.kill = function() {
 // --------------------------------------------------
 // PRIVATE FUNCTIONS
 // --------------------------------------------------
+function _buildPlayerNode( options ) {
+    var node = document.createElement( 'div' );
+
+    node.classList.add( 'player' );
+    node.setAttribute( 'data-id', options.id );
+    node.setAttribute( 'data-num', options.num );
+
+    return node;
+}
+
 function _emitPlayerDied( data ) {
     data = data || {};
 

@@ -18,18 +18,21 @@ var View = require( './view' );
 
     // 'Player' entities.
     var player1 = new Player();
+    var player2 = new Player();
     game.players.push( player1 );
+    game.players.push( player2 );
 
     // 'View' entity.
     var view = new View( { targetId: 'uiWrapper' } );
     view.buildPlayerUI( player1 );
+    view.buildPlayerUI( player2 );
 
     // 'Grid' entities.
     var grid = new Grid( { count: 10, defaultValue: null } );
     var bombGrid = new Grid( { count: 10, defaultValue: null } );
 
     grid.set( player1, [ 0, 0 ] );
-    view.insertNode( player1, [ 0, 0 ] );
+    grid.set( player2, [ grid.getHeight(), grid.getWidth() ] );
 
     // Inject 'Terrain' instances into `grid`.
     for ( var i = 0, x = 30; i < x; i++ ) {
@@ -44,8 +47,6 @@ var View = require( './view' );
         bombs: 3
     };
 
-    // Build HTML
-    var playerElem = document.getElementsByClassName( 'player' )[ 0 ];
     var gridWrapper = document.getElementById( 'gridWrapper' );
     var terrainWrapper = document.getElementById( 'terrainWrapper' );
     var bombWrapper = document.getElementById( 'bombWrapper' );
@@ -60,12 +61,15 @@ var View = require( './view' );
         var rowHTML = document.createElement( 'div' );
 
         rowHTML.classList.add( 'row' );
+        rowHTML.setAttribute( 'data-row', i );
 
         for ( var j = 0; j < x; j++ ) {
             var cellHTML = document.createElement( 'div' );
 
             cellHTML.classList.add( 'cell' );
             cellHTML.classList.add( 'tile' );
+            cellHTML.setAttribute( 'data-row', i );
+            cellHTML.setAttribute( 'data-col', j );
 
             rowHTML.appendChild( cellHTML );
         }
@@ -76,6 +80,10 @@ var View = require( './view' );
     gridWrapper.prepend( gridHTML );
     // Build 'grid UI' - END
 
+
+    // Insert 'Player' nodes.
+    view.insertGridNode( player1, [ 0, 0 ] );
+    view.insertGridNode( player2, [ grid.getHeight(), grid.getWidth() ] );
 
     // Build 'grid terrain' - START
     /// TODO[@jrmykolyn] - Move logic to elsewhere in controller, or into dedicated partial file.
@@ -303,7 +311,7 @@ var View = require( './view' );
                     console.log( 'MOVE LEFT' ); /// TEMP
 
                     if ( grid.moveEntity( player1, 'left' ) ) {
-                        movePlayer( playerElem, 'left' );
+                        movePlayer( player1.node, 'left' );
                     }
 
                     break;
@@ -311,7 +319,7 @@ var View = require( './view' );
                     console.log( 'MOVE UP' ); /// TEMP
 
                     if ( grid.moveEntity( player1, 'up' ) ) {
-                        movePlayer( playerElem, 'up' );
+                        movePlayer( player1.node, 'up' );
                     }
 
                     break;
@@ -319,7 +327,7 @@ var View = require( './view' );
                     console.log( 'MOVE RIGHT' ); /// TEMP
 
                     if ( grid.moveEntity( player1, 'right' ) ) {
-                        movePlayer( playerElem, 'right' );
+                        movePlayer( player1.node, 'right' );
                     }
 
                     break;
@@ -327,7 +335,7 @@ var View = require( './view' );
                     console.log( 'MOVE DOWN' ); /// TEMP
 
                     if ( grid.moveEntity( player1, 'down' ) ) {
-                        movePlayer( playerElem, 'down' );
+                        movePlayer( player1.node, 'down' );
                     }
 
                     break;
