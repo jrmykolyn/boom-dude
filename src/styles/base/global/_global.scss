@@ -55,8 +55,15 @@ main {
     display: inline-block;
     margin: 0;
     padding: 10px 0px;
+
+    // Positional styles.
+    &:not( :last-child ) {
+        margin-right: 30px;
+    }
 }
 
+
+.ui-section--lives,
 .ui-section--inventory {
     @extend .ui-section;
 }
@@ -76,13 +83,24 @@ main {
 }
 
 
-.item--bomb {
+.item {
     width: 100%;
     height: 100%;
     display: block;
     background-color: red;
     border-radius: 50%;
     transform: scale( 0.75 );
+}
+
+
+.item--life,
+.item--bomb {
+    @extend .item;
+}
+
+
+.item--life {
+    background-color: green;
 }
 
 
