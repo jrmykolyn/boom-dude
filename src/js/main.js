@@ -86,22 +86,31 @@ var View = require( './view' );
         var rowHTML = document.createElement( 'div' );
 
         rowHTML.classList.add( 'row' );
+        rowHTML.setAttribute( 'data-row', i );
 
         for ( var j = 0; j < x; j++ ) {
             var cellHTML = document.createElement( 'div' );
 
             cellHTML.classList.add( 'cell' );
+            cellHTML.setAttribute( 'data-row', i );
+            cellHTML.setAttribute( 'data-col', j );
 
             var coords = [ i, j ];
             var currEntity = grid.getEntityAtCoords( coords );
 
             if ( currEntity && currEntity instanceof Terrain ) {
-                cellHTML.classList.add( 'terrain' );
+                var entityHTML = document.createElement( 'div' );
+
+                entityHTML.classList.add( 'entity' );
+                entityHTML.classList.add( 'terrain' );
+                entityHTML.setAttribute( 'data-id', currEntity.id );
 
                 // If the current entity *IS* indestructible, add a supplementary class.
                 if ( currEntity.indestructible ) {
-                    cellHTML.classList.add( 'indestructible' );
+                    entityHTML.classList.add( 'indestructible' );
                 }
+
+                cellHTML.appendChild( entityHTML );
             }
 
             rowHTML.append( cellHTML );
@@ -245,6 +254,14 @@ var View = require( './view' );
             console.log( 'CHECKING FOR ENTITY AT COORDS:', coords );
 
             var entity = grid.getEntityAtCoords( coords );
+
+            if ( entity && !entity.indestructible ) {
+                // Remove `entity` from `grid`.
+                grid.set( null, coords );
+
+                // Remove entity from 'view'.
+                view.removeNode( entity );
+            }
 
             if ( entity instanceof Player ) {
                 entity.kill();

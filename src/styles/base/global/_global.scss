@@ -220,13 +220,18 @@ main {
     position: relative;
 }
 
+.entity {
+    @include dims( 100% );
 
-.terrain {
-    background-color: tan;
-    box-shadow: inset 0px 0px 10px rgba( 0,0,0,0.3 );
+    display: block;
 
-    &.indestructible {
-        background-color: saddlebrown;
+    &.terrain {
+        background-color: tan;
+        box-shadow: inset 0px 0px 10px rgba( 0,0,0,0.3 );
+
+        &.indestructible {
+            background-color: saddlebrown;
+        }
     }
 }
 
