@@ -82,8 +82,8 @@ var View = require( './view' );
 
 
     // Insert 'Player' nodes.
-    view.insertGridNode( player1, [ 0, 0 ] );
-    view.insertGridNode( player2, [ grid.getHeight(), grid.getWidth() ] );
+    view.insertNode( 'gridWrapper', player1, [ 0, 0 ] );
+    view.insertNode( 'gridWrapper', player2, [ grid.getHeight(), grid.getWidth() ] );
 
     // Build 'grid terrain' - START
     /// TODO[@jrmykolyn] - Move logic to elsewhere in controller, or into dedicated partial file.
@@ -290,13 +290,11 @@ var View = require( './view' );
                         // Add `bomb` to `bombGrid`.
                         bombGrid.set( bomb, pos );
 
+                        // Add 'bomb' to 'view'.
+                        view.insertNode( 'bombWrapper', bomb, bomb.coords );
+
                         // Start `bomb` countdown.
                         bomb.arm();
-
-                        // Build and insert `bomb` HTML.
-                        var cellElem = bombGridHTML.querySelector( '[data-row="' + pos[ 0 ] + '"][data-col="' + pos[ 1 ] + '"]' );
-
-                        cellElem.appendChild( bomb.node );
                     }
 
                     break;

@@ -107,17 +107,31 @@ View.prototype.setOverlayState = function( isActive ) {
 } // /setOverlayState()
 
 
-View.prototype.insertGridNode = function( entity, coords ) {
+View.prototype.insertNode = function( wrapperId, entity, coords ) {
+    wrapperId = wrapperId || null;
     entity = entity || null;
     coords = coords || null;
 
-    if ( !entity || !entity.node ) { return null; }
+    var el = cell = null;
 
-    var el = document.getElementById( 'gridWrapper' );
-    var cell = el.querySelector( '[data-row="' + coords[ 0 ] + '"][data-col="' + coords[ 1 ] + '"]' );
+    if ( !wrapperId || !entity || !entity.node || !coords || !Array.isArray( coords ) ) {
+        return null;
+    }
 
-    cell.appendChild( entity.node );
-} // /insertGridNode()
+    el = document.getElementById( wrapperId );
+
+    if ( el ) {
+        cell = el.querySelector( '[data-row="' + coords[ 0 ] + '"][data-col="' + coords[ 1 ] + '"]' );
+    }
+
+    if ( cell ) {
+        cell.appendChild( entity.node );
+
+        return true;
+    }
+
+    return false;
+} // /insertNode()
 
 
 View.prototype.removeNode = function( entity ) {
