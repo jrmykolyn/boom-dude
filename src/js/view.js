@@ -104,7 +104,25 @@ View.prototype.setOverlayState = function( isActive ) {
     } else {
         overlayElem.classList.remove( 'is-active' );
     }
-} // /applyOverlay()
+} // /setOverlayState()
+
+
+
+View.prototype.removeNode = function( entity ) {
+    entity = entity || null;
+
+    if ( !entity || !entity.id ) { return null; }
+
+    var el = document.querySelector( '[data-id="' + entity.id + '"]' );
+
+    if ( el ) {
+        el.parentNode.removeChild( el );
+
+        return true;
+    }
+
+    return false;
+} // /removeNode()
 
 
 // --------------------------------------------------
