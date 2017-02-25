@@ -35,9 +35,11 @@ Player.prototype.getBomb = function() {
 Player.prototype.kill = function() {
     this.lives--;
 
-    console.log( 'PLAYER ' + this.id + ' HAS X LIVES REMAINING: ', this.lives ); // TEMP
-
     _emitPlayerDied( this );
+
+    if ( !this.lives ) {
+        _emitPlayerLost( this );
+    }
 }
 
 
@@ -53,6 +55,17 @@ function _emitPlayerDied( data ) {
 
     window.dispatchEvent( e );
 } // /_emitPlayerDied()
+
+
+function _emitPlayerLost( data ) {
+    data = data || {};
+
+    var e = new Event( 'BD_PLAYER_LOST' );
+
+    e.data = data;
+
+    window.dispatchEvent( e );
+} // /_emitPlayerLost()
 
 
 function _emitPlayerFetchedBomb( data ) {

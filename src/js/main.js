@@ -187,6 +187,13 @@ var View = require( './view' );
     } ); // /BD_PLAYER_DIED
 
 
+    window.addEventListener( 'BD_PLAYER_LOST', function( e ) {
+        console.log( 'GAME OVER FOR PLAYER: ', e.data.id ); /// TEMP
+
+        game.state.isOver = true;
+    } ); // /BD_PLAYER_LOST
+
+
     window.addEventListener( 'BD_BOOM', function( e ) {
         /// TODO[@jrmykolyn]
         // - Validate presence of `coords` on `e.data`.
