@@ -192,11 +192,9 @@ var View = require( './view' );
         }
 
         currVal = parseInt( player.style[ prop ] ) || 0;
-        newVal = ( currVal + ( mod * 50 ) );
+        newVal = ( currVal + ( mod * ( gridHTML.clientHeight / ( grid.getWidth() + 1 ) ) ) ); /// TODO[@jrmykolyn] - Split this logic up across multiple lines/assignments.
 
-        if ( newVal >= 0 && newVal < maxVal ) {
-            player.style[ prop ] = newVal + 'px';
-        }
+        player.style[ prop ] = newVal + 'px';
     }
 
 
@@ -298,35 +296,51 @@ var View = require( './view' );
                     }
 
                     break;
-                case 37:
-                    console.log( 'MOVE LEFT' ); /// TEMP
-
+                case 65: // Player 1 > LEFT
                     if ( grid.moveEntity( player1, 'left' ) ) {
                         movePlayer( player1.node, 'left' );
                     }
 
                     break;
-                case 38:
-                    console.log( 'MOVE UP' ); /// TEMP
-
+                case 87: // Player 1 > UP
                     if ( grid.moveEntity( player1, 'up' ) ) {
                         movePlayer( player1.node, 'up' );
                     }
 
                     break;
-                case 39:
-                    console.log( 'MOVE RIGHT' ); /// TEMP
-
+                case 68: // Player 1 > RIGHT
                     if ( grid.moveEntity( player1, 'right' ) ) {
                         movePlayer( player1.node, 'right' );
                     }
 
                     break;
-                case 40:
-                    console.log( 'MOVE DOWN' ); /// TEMP
-
+                case 83: // Player 1 > DOWN
                     if ( grid.moveEntity( player1, 'down' ) ) {
                         movePlayer( player1.node, 'down' );
+                    }
+
+                    break;
+                case 37: // Player 2 > LEFT
+                    if ( grid.moveEntity( player2, 'left' ) ) {
+                        movePlayer( player2.node, 'left' );
+                    }
+
+                    break;
+                case 38: // Player 2 > UP
+                    if ( grid.moveEntity( player2, 'up' ) ) {
+                        movePlayer( player2.node, 'up' );
+                    }
+
+                    break;
+                case 39: // Player 2 > RIGHT
+                    if ( grid.moveEntity( player2, 'right' ) ) {
+                        movePlayer( player2.node, 'right' );
+                    }
+
+                    break;
+                case 40: // Player 2 > DOWN
+                    if ( grid.moveEntity( player2, 'down' ) ) {
+                        movePlayer( player2.node, 'down' );
                     }
 
                     break;
