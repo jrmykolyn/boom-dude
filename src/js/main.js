@@ -130,83 +130,6 @@ var Terrain = require( './terrain' );
     // --------------------------------------------------
     // DECLARE FUNCTIONS
     // --------------------------------------------------
-    function getPlayerLocation() {
-        var output = {};
-
-        output.top = parseInt( player.style.top ) || 0;
-        output.left = parseInt( player.style.left ) || 0;
-
-        return output;
-    }
-
-
-    function getInventory( item ) {
-        item = item || '';
-
-        if ( !item || !inventory[ item ] ) {
-            return null;
-        }
-
-        return inventory[ item ];
-    }
-
-
-    function updateInventory( item, update ) {
-        item = item || '';
-        update = update || 0;
-
-        // Validate args.
-        if ( !item || !update || !inventory[ item ] ) {
-            return null;
-        }
-
-        // Update inventory.
-        inventory[ item ] += update;
-
-        // Return updated inventory.
-        return inventory[ item ];
-    }
-
-
-    function placeBomb() {
-        console.log( 'INSIDE `placeBomb()`' );
-
-        if ( getInventory( 'bombs' ) ) {
-            // Create new 'bomb' elem. and add to document.
-            var playerCoords =  getPlayerLocation();
-            var bombElem = buildBombElement( playerCoords );
-
-            gridHTML.appendChild( bombElem );
-
-            armBomb( bombElem );
-
-            /// TODO[@jrmykolyn]
-            // - Update `gridData`.
-            // - Handle 'explosion' countdown.
-
-            updateInventory( 'bombs', -1 );
-        }
-    }
-
-
-    function buildBombElement( coords ) {
-        var el = document.createElement( 'div' );
-
-        el.classList.add( 'bomb' );
-        el.style.top = ( coords.top ) + 'px';
-        el.style.left = ( coords.left ) + 'px';
-
-        return el;
-    }
-
-
-    function armBomb( bombElem ) {
-        setTimeout( function() {
-            console.log( 'BOOM!' );
-        }, 1000 );
-    } // /armBomb()
-
-
     function movePlayer( player, direction ) {
         var prop = null;
         var mod = 1;
@@ -245,14 +168,15 @@ var Terrain = require( './terrain' );
     }
 
 
-
+    // --------------------------------------------------
     // EVENTS
+    // --------------------------------------------------
     window.addEventListener( 'BD_PLAYER_DIED', function( e ) {
         console.log( 'INSIDE `BD_PLAYER_DIED` EVENT HANDLER' ); /// TEMP
 
         console.log( 'LOGGING `e.data`' ); /// TEMP
         console.log( e.data ); /// TEMP
-    } );
+    } ); // /BD_PLAYER_DIED
 
 
     window.addEventListener( 'BD_BOOM', function( e ) {
@@ -286,7 +210,7 @@ var Terrain = require( './terrain' );
                 entity.kill();
             }
         } );
-    } );
+    } ); // /BD_BOOM
 
 
     window.addEventListener( 'keyup', function( e ) {
@@ -353,5 +277,5 @@ var Terrain = require( './terrain' );
                     // DO NO THINGS;
             }
         }
-    } );
+    } ); // /keyup
 } )( window, document );
