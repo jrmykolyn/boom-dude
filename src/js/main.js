@@ -212,6 +212,8 @@ var View = require( './view' );
     // EVENTS
     // --------------------------------------------------
     window.addEventListener( 'BD_PLAYER_FETCHED_BOMB', function( e ) {
+        console.log( e );
+
         view.removePlayerElem( e.data, 'bomb' );
     } ); // /BD_PLAYER_FETCHED_BOMB
 
@@ -263,16 +265,18 @@ var View = require( './view' );
             var entity = grid.getEntityAtCoords( coords );
 
             if ( entity && !entity.indestructible ) {
-                // Remove `entity` from `grid`.
-                grid.set( null, coords );
+                if ( entity instanceof Player ) {
+                    entity.kill();
+                } else {
+                    // Remove `entity` from `grid`.
+                    grid.set( null, coords );
 
-                // Remove entity from 'view'.
-                view.removeNode( entity );
+                    // Remove entity from 'view'.
+                    view.removeNode( entity );
+                }
             }
 
-            if ( entity instanceof Player ) {
-                entity.kill();
-            }
+
         } );
     } ); // /BD_BOOM
 
@@ -280,7 +284,7 @@ var View = require( './view' );
     window.addEventListener( 'keyup', function( e ) {
         if ( !game.state.isOver ) {
             switch ( e.keyCode ) {
-                case 32: /// SPACE
+                case 32: // Player 1 > BOMB ( Spacebar )
                     if ( player1.hasInventory( 'bombs' ) ) {
                         var pos = grid.getPositionOf( player1.id );
                         var bomb = player1.fetchBomb( { coords: pos } );
@@ -317,6 +321,22 @@ var View = require( './view' );
                 case 83: // Player 1 > DOWN
                     if ( grid.moveEntity( player1, 'down' ) ) {
                         movePlayer( player1.node, 'down' );
+                    }
+
+                    break;
+                case 18: // Player 2 > BOMB ( Option )
+                    if ( player2.hasInventory( 'bombs' ) ) {
+                        var pos = grid.getPositionOf( player2.id );
+                        var bomb = player2.fetchBomb( { coords: pos } );
+
+                        // Add `bomb` to `bombGrid`.
+                        bombGrid.set( bomb, pos );
+
+                        // Add 'bomb' to 'view'.
+                        view.insertNode( 'bombWrapper', bomb, bomb.coords );
+
+                        // Start `bomb` countdown.
+                        bomb.arm();
                     }
 
                     break;
