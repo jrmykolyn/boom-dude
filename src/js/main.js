@@ -7,6 +7,7 @@ var Terrain = require( './terrain' );
     // --------------------------------------------------
     // DECLARE VARS
     // --------------------------------------------------
+    var gameOver = false;
     var playerElem = document.getElementsByClassName( 'player' )[ 0 ];
     var gridWrapper = document.getElementById( 'gridWrapper' );
     var terrainWrapper = document.getElementById( 'terrainWrapper' );
@@ -234,7 +235,17 @@ var Terrain = require( './terrain' );
         }
     }
 
+
+
     // EVENTS
+    window.addEventListener( 'BD_PLAYER_DIED', function( e ) {
+        console.log( 'INSIDE `BD_PLAYER_DIED` EVENT HANDLER' ); /// TEMP
+
+        console.log( 'LOGGING `e.data`' ); /// TEMP
+        console.log( e.data ); /// TEMP
+    } );
+
+
     window.addEventListener( 'BD_BOOM', function( e ) {
         /// TODO[@jrmykolyn]
         // - Validate presence of `coords` on `e.data`.
@@ -259,72 +270,79 @@ var Terrain = require( './terrain' );
         /// TEMP
         coordsArr.forEach( function( coords ) {
             console.log( 'CHECKING FOR ENTITY AT COORDS:', coords );
-            console.log( grid.getEntityAtCoords( coords ) );
+
+            var entity = grid.getEntityAtCoords( coords );
+
+            if ( entity instanceof Player ) {
+                entity.kill();
+            }
         } );
     } );
 
 
     window.addEventListener( 'keyup', function( e ) {
-        switch ( e.keyCode ) {
-            case 32: /// SPACE
-                if ( player1.hasInventory( 'bombs' ) ) {
-                    var bomb = player1.getBomb();
-                    var pos = grid.getPositionOf( player1.id );
+        if ( !gameOver ) {
+            switch ( e.keyCode ) {
+                case 32: /// SPACE
+                    if ( player1.hasInventory( 'bombs' ) ) {
+                        var bomb = player1.getBomb();
+                        var pos = grid.getPositionOf( player1.id );
 
-                    // Add `bomb` to `bombGrid`.
-                    bombGrid.set( bomb, pos );
+                        // Add `bomb` to `bombGrid`.
+                        bombGrid.set( bomb, pos );
 
-                    // Build and insert `bomb` HTML.
-                    var cellElem = bombGridHTML.querySelectorAll( '[data-row="' + pos[ 0 ] + '"][data-col="' + pos[ 1 ] + '"]' )[ 0 ];
-                    var bombElem = document.createElement( 'div' );
+                        // Build and insert `bomb` HTML.
+                        var cellElem = bombGridHTML.querySelectorAll( '[data-row="' + pos[ 0 ] + '"][data-col="' + pos[ 1 ] + '"]' )[ 0 ];
+                        var bombElem = document.createElement( 'div' );
 
-                    bombElem.classList.add( 'bomb' );
-                    bombElem.setAttribute( 'data-id', bomb.id );
+                        bombElem.classList.add( 'bomb' );
+                        bombElem.setAttribute( 'data-id', bomb.id );
 
-                    cellElem.appendChild( bombElem );
+                        cellElem.appendChild( bombElem );
 
-                    // Start `bomb` countdown.
-                    bomb.arm();
+                        // Start `bomb` countdown.
+                        bomb.arm();
 
-                    /// TODO[@jrmykolyn] - Figure out more elegant way to inject this info. Shouldn't be separate step.
-                    bomb.set( 'coords', pos );
-                }
+                        /// TODO[@jrmykolyn] - Figure out more elegant way to inject this info. Shouldn't be separate step.
+                        bomb.set( 'coords', pos );
+                    }
 
-                break;
-            case 37:
-                console.log( 'MOVE LEFT' ); /// TEMP
+                    break;
+                case 37:
+                    console.log( 'MOVE LEFT' ); /// TEMP
 
-                if ( grid.moveEntity( player1, 'left' ) ) {
-                    movePlayer( playerElem, 'left' );
-                }
+                    if ( grid.moveEntity( player1, 'left' ) ) {
+                        movePlayer( playerElem, 'left' );
+                    }
 
-                break;
-            case 38:
-                console.log( 'MOVE UP' ); /// TEMP
+                    break;
+                case 38:
+                    console.log( 'MOVE UP' ); /// TEMP
 
-                if ( grid.moveEntity( player1, 'up' ) ) {
-                    movePlayer( playerElem, 'up' );
-                }
+                    if ( grid.moveEntity( player1, 'up' ) ) {
+                        movePlayer( playerElem, 'up' );
+                    }
 
-                break;
-            case 39:
-                console.log( 'MOVE RIGHT' ); /// TEMP
+                    break;
+                case 39:
+                    console.log( 'MOVE RIGHT' ); /// TEMP
 
-                if ( grid.moveEntity( player1, 'right' ) ) {
-                    movePlayer( playerElem, 'right' );
-                }
+                    if ( grid.moveEntity( player1, 'right' ) ) {
+                        movePlayer( playerElem, 'right' );
+                    }
 
-                break;
-            case 40:
-                console.log( 'MOVE DOWN' ); /// TEMP
+                    break;
+                case 40:
+                    console.log( 'MOVE DOWN' ); /// TEMP
 
-                if ( grid.moveEntity( player1, 'down' ) ) {
-                    movePlayer( playerElem, 'down' );
-                }
+                    if ( grid.moveEntity( player1, 'down' ) ) {
+                        movePlayer( playerElem, 'down' );
+                    }
 
-                break;
-            default:
-                // DO NO THINGS;
+                    break;
+                default:
+                    // DO NO THINGS;
+            }
         }
     } );
 } )( window, document );
