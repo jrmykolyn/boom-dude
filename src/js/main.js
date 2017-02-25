@@ -29,6 +29,7 @@ var View = require( './view' );
     var bombGrid = new Grid( { count: 10, defaultValue: null } );
 
     grid.set( player1, [ 0, 0 ] );
+    view.insertNode( player1, [ 0, 0 ] );
 
     // Inject 'Terrain' instances into `grid`.
     for ( var i = 0, x = 30; i < x; i++ ) {
