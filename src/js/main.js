@@ -16,23 +16,26 @@ var View = require( './view' );
 
     game.players = [];
 
-    // 'Player' entities.
-    var player1 = new Player();
-    var player2 = new Player();
-    game.players.push( player1 );
-    game.players.push( player2 );
-
-    // 'View' entity.
-    var view = new View( { targetId: 'uiWrapper' } );
-    view.buildPlayerUI( player1 );
-    view.buildPlayerUI( player2 );
-
-    // 'Grid' entities.
+    // Instantiate 'Grid' entities.
     var grid = new Grid( { count: 10, defaultValue: null } );
     var bombGrid = new Grid( { count: 10, defaultValue: null } );
 
+    // Instantiate 'Player' entities.
+    var player1 = new Player( { coords: [ 0, 0 ] } );
+    var player2 = new Player( { coords: [ grid.getHeight(), grid.getWidth() ] } );
+
+    // Add 'Player' entities to 'Game' object.
+    game.players.push( player1 );
+    game.players.push( player2 );
+
+    // Add 'Player; entities to 'Grid' object.
     grid.set( player1, [ 0, 0 ] );
     grid.set( player2, [ grid.getHeight(), grid.getWidth() ] );
+
+    // Instantiate 'View' entity.
+    var view = new View( { targetId: 'uiWrapper' } );
+    view.buildPlayerUI( player1 );
+    view.buildPlayerUI( player2 );
 
     // Inject 'Terrain' instances into `grid`.
     for ( var i = 0, x = 30; i < x; i++ ) {
@@ -204,13 +207,41 @@ var View = require( './view' );
     /// TODO[@jrmykolyn] - Move function into `Game` entity/class.
     function _emitGameOver() {
         var e = new Event( 'BD_GAME_OVER' );
-        window.dispatchEvent( e );
+        window.dispatchEventEvent( e );
     }
 
 
     // --------------------------------------------------
     // EVENTS
     // --------------------------------------------------
+    window.addEventListener( 'BD_PLAYER_MOVE', function( e ) {
+        // Pull 'Player' and options data out of event.
+        var player = e.data.player;
+        var options = e.data.options;
+
+        // Assign coords-related vars.
+        var currCoords = player.coords.get();
+        var newCoords = player.coords.get( options );
+
+        if (
+            grid.validateCoords( newCoords )
+            && !grid.getEntityAtCoords( newCoords )
+            && !bombGrid.getEntityAtCoords( newCoords )
+        ) {
+            // Update 'grid'
+            /// TODO[@jrmykolyn] - Update 'Grid' to include '.move( currCoords, newCoords )' method.
+            grid.set( null, currCoords );
+            grid.set( player, newCoords );
+
+            // Update 'Player' coords.
+            player.coords.set( newCoords );
+
+            // Update view.
+            movePlayer( player.node, options.offset.direction );
+        }
+    } ); // /BD_PLAYER_MOVE
+
+
     window.addEventListener( 'BD_PLAYER_FETCHED_BOMB', function( e ) {
         console.log( e );
 
@@ -248,6 +279,10 @@ var View = require( './view' );
 
         console.log( 'LOGGING `e.data.coords`' ); /// TEMP
         console.log( e.data.coords ); /// TEMP
+
+
+        // Remove 'Bomb' entity.
+        bombGrid.set( null, e.data.coords );
 
         /// TEMP
         var upCoords = bombGrid.adjustCoords( e.data.coords.slice(), 'up' );
@@ -301,27 +336,50 @@ var View = require( './view' );
 
                     break;
                 case 65: // Player 1 > LEFT
-                    if ( grid.moveEntity( player1, 'left' ) ) {
-                        movePlayer( player1.node, 'left' );
-                    }
+                    var e = new Event( 'BD_PLAYER_MOVE' );
+                    e.data = {
+                        player: player1,
+                        options: {
+                            offset: { direction: 'left', distance: -1 }
+                        }
+                    };
 
+                    window.dispatchEvent( e );
                     break;
                 case 87: // Player 1 > UP
-                    if ( grid.moveEntity( player1, 'up' ) ) {
-                        movePlayer( player1.node, 'up' );
-                    }
+                    var e = new Event( 'BD_PLAYER_MOVE' );
+                    e.data = {
+                        player: player1,
+                        options: {
+                            offset: { direction: 'up', distance: -1 }
+                        }
+                    };
+
+                    window.dispatchEvent( e );
 
                     break;
                 case 68: // Player 1 > RIGHT
-                    if ( grid.moveEntity( player1, 'right' ) ) {
-                        movePlayer( player1.node, 'right' );
-                    }
+                    var e = new Event( 'BD_PLAYER_MOVE' );
+                    e.data = {
+                        player: player1,
+                        options: {
+                            offset: { direction: 'right', distance: 1 }
+                        }
+                    };
+
+                    window.dispatchEvent( e );
 
                     break;
                 case 83: // Player 1 > DOWN
-                    if ( grid.moveEntity( player1, 'down' ) ) {
-                        movePlayer( player1.node, 'down' );
-                    }
+                    var e = new Event( 'BD_PLAYER_MOVE' );
+                    e.data = {
+                        player: player1,
+                        options: {
+                            offset: { direction: 'down', distance: 1 }
+                        }
+                    };
+
+                    window.dispatchEvent( e );
 
                     break;
                 case 18: // Player 2 > BOMB ( Option )
