@@ -12,6 +12,7 @@ var Dispatcher = require( './dispatcher' );
     // --------------------------------------------------
     // 'Game' entity:
     var game = new Game();
+    game.init(); /// TODO[@jrmykolyn] - Build out body of function.
 
     // Instantiate 'Grid' entities.
     var grid = new Grid( { count: 10, defaultValue: null } );

@@ -24,6 +24,13 @@ function Game( options ) {
 } // /Game()
 
 
+Game.prototype.init = function( options ) {
+    console.log( 'INSIDE `Game.init()`' );
+
+    /// TODO[@jrmkolyn] - All entities to be instantiated/capture here.
+} // /init()
+
+
 Game.prototype.addPlayers = function( players ) {
     players = players || null;
 
