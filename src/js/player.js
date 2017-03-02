@@ -2,6 +2,7 @@
 // IMPORT MODULES
 // --------------------------------------------------
 var Bomb = require( './bomb' );
+var Coords = require( './coords' );
 
 
 // --------------------------------------------------
@@ -21,6 +22,7 @@ function Player( options ) {
     this.id = ( Math.floor( Math.random() * 1000000 ) + '' ).substring( 0, 5 );
     this.num = _private.totalPlayers;
     this.node = _buildPlayerNode( { id: this.id, num: this.num } );
+    this.coords = new Coords( { coords: options.coords } );
 
     this.inventory = {};
     this.lives = 3; /// TEMP
