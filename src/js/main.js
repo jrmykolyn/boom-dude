@@ -22,8 +22,7 @@ var Dispatcher = require( './dispatcher' );
     var player2 = new Player( { coords: [ grid.getHeight(), grid.getWidth() ] } );
 
     // Add 'Player' entities to 'Game' object.
-    game.players.push( player1 );
-    game.players.push( player2 );
+    game.addPlayers( [ player1, player2 ] );
 
     // Add 'Player' entities to 'Grid' object.
     grid.set( player1, [ 0, 0 ] );
