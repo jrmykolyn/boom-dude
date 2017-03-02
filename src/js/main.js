@@ -57,9 +57,6 @@ var View = require( './view' );
     // --------------------------------------------------
     // DECLARE FUNCTIONS
     // --------------------------------------------------
-    function movePlayer( player, direction ) {
-
-    }
 
 
     // --------------------------------------------------
@@ -260,27 +257,51 @@ var View = require( './view' );
 
                     break;
                 case 37: // Player 2 > LEFT
-                    if ( grid.moveEntity( player2, 'left' ) ) {
-                        movePlayer( player2.node, 'left' );
-                    }
+                    var e = new Event( 'BD_PLAYER_MOVE' );
+                    e.data = {
+                        player: player2,
+                        options: {
+                            offset: { direction: 'left', distance: -1 }
+                        }
+                    };
+
+                    window.dispatchEvent( e );
 
                     break;
                 case 38: // Player 2 > UP
-                    if ( grid.moveEntity( player2, 'up' ) ) {
-                        movePlayer( player2.node, 'up' );
-                    }
+                    var e = new Event( 'BD_PLAYER_MOVE' );
+                    e.data = {
+                        player: player2,
+                        options: {
+                            offset: { direction: 'up', distance: -1 }
+                        }
+                    };
+
+                    window.dispatchEvent( e );
 
                     break;
                 case 39: // Player 2 > RIGHT
-                    if ( grid.moveEntity( player2, 'right' ) ) {
-                        movePlayer( player2.node, 'right' );
-                    }
+                    var e = new Event( 'BD_PLAYER_MOVE' );
+                    e.data = {
+                        player: player2,
+                        options: {
+                            offset: { direction: 'right', distance: 1 }
+                        }
+                    };
+
+                    window.dispatchEvent( e );
 
                     break;
                 case 40: // Player 2 > DOWN
-                    if ( grid.moveEntity( player2, 'down' ) ) {
-                        movePlayer( player2.node, 'down' );
-                    }
+                    var e = new Event( 'BD_PLAYER_MOVE' );
+                    e.data = {
+                        player: player2,
+                        options: {
+                            offset: { direction: 'down', distance: 1 }
+                        }
+                    };
+
+                    window.dispatchEvent( e );
 
                     break;
                 default:
