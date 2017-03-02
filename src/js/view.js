@@ -13,6 +13,7 @@ function View( options ) {
 
     this.targetId = options.targetId || 'uiWrapper';
     this.targetNode = document.getElementById( this.targetId );
+    this.grid = {};
 
     return this;
 } // /View()
@@ -76,8 +77,12 @@ View.prototype.buildGrid = function( options ) {
 
     gridWrapper.prepend( gridHTML );
 
-    /// TEMP - Return `gridHTML` node to outer context. Moving forward, all interactions with DOM nodes should be done via the `View` API.
-    return gridHTML;
+    // Capture `grid` data and node as instance properties.
+    this.grid.data = grid;
+    this.grid.node = gridHTML;
+
+    /// TEMP - Return node to outer context. Moving forward, all interactions with DOM nodes should be done via the `View` API.
+    return this.grid.node;
 } // /buildGrid()
 
 
@@ -213,6 +218,44 @@ View.prototype.removeNode = function( entity ) {
 
     return false;
 } // /removeNode()
+
+
+View.prototype.shiftNode = function( entity, direction ) {
+    entity = entity || null;
+
+    if ( !entity || typeof entity !== 'object' || !entity.node ) {
+        return null;
+
+        /// TODO[@jrmykolyn] - Throw error.
+    }
+
+    var prop = null;
+    var mod = 1;
+    var currVal = null;
+    var newVal = null;
+
+    switch ( direction ) {
+        case 'up':
+            mod = -1;
+        case 'down':
+            prop = 'top';
+
+            break;
+        case 'left':
+            mod = -1;
+        case 'right':
+            prop = 'left';
+
+            break;
+        default:
+            // DO NO THINGS;
+    }
+
+    currVal = parseInt( entity.node.style[ prop ] ) || 0;
+    newVal = ( currVal + ( mod * ( this.grid.node.clientHeight / ( this.grid.data.getWidth() + 1 ) ) ) ); /// TODO[@jrmykolyn] - Split this logic up across multiple lines/assignments.
+
+    entity.node.style[ prop ] = newVal + 'px';
+}
 
 
 // --------------------------------------------------

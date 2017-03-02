@@ -58,32 +58,7 @@ var View = require( './view' );
     // DECLARE FUNCTIONS
     // --------------------------------------------------
     function movePlayer( player, direction ) {
-        var prop = null;
-        var mod = 1;
-        var currVal = null;
-        var newVal = null;
 
-        switch ( direction ) {
-            case 'up':
-                mod = -1;
-            case 'down':
-                prop = 'top';
-
-                break;
-            case 'left':
-                mod = -1;
-            case 'right':
-                prop = 'left';
-
-                break;
-            default:
-                // DO NO THINGS;
-        }
-
-        currVal = parseInt( player.style[ prop ] ) || 0;
-        newVal = ( currVal + ( mod * ( gridHTML.clientHeight / ( grid.getWidth() + 1 ) ) ) ); /// TODO[@jrmykolyn] - Split this logic up across multiple lines/assignments.
-
-        player.style[ prop ] = newVal + 'px';
     }
 
 
@@ -123,7 +98,7 @@ var View = require( './view' );
             player.coords.set( newCoords );
 
             // Update view.
-            movePlayer( player.node, options.offset.direction );
+            view.shiftNode( player, options.offset.direction );
         }
     } ); // /BD_PLAYER_MOVE
 
