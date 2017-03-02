@@ -46,54 +46,8 @@ var View = require( './view' );
         grid.insert( t );
     }
 
-    var gridWrapper = document.getElementById( 'gridWrapper' );
-
-    // Build 'grid UI' - START
-    /// TODO[@jrmykolyn] - Move logic to elsewhere in controller, or into dedicated partial file.
-    var gridHTML = document.createElement( 'div' );
-    gridHTML.classList.add( 'grid' );
-
-    /// TODO[@jrmykolyn] - Build out alternative method for fetching grid height.
-    for ( var i = 0, x = ( grid.getHeight() + 1 ); i < x; i++ ) {
-        var rowHTML = document.createElement( 'div' );
-
-        rowHTML.classList.add( 'row' );
-        rowHTML.setAttribute( 'data-row', i );
-
-        for ( var j = 0; j < x; j++ ) {
-            var coords = [ i, j ];
-            var currEntity = grid.getEntityAtCoords( coords );
-            var cellHTML = document.createElement( 'div' );
-
-            cellHTML.classList.add( 'cell' );
-            cellHTML.classList.add( 'tile' );
-            cellHTML.setAttribute( 'data-row', i );
-            cellHTML.setAttribute( 'data-col', j );
-
-            // Build and insert `Terrain` nodes.
-            if ( currEntity && currEntity instanceof Terrain ) {
-                var entityHTML = document.createElement( 'div' );
-
-                entityHTML.classList.add( 'entity' );
-                entityHTML.classList.add( 'terrain' );
-                entityHTML.setAttribute( 'data-id', currEntity.id );
-
-                // If the current entity *IS* indestructible, add a supplementary class.
-                if ( currEntity.indestructible ) {
-                    entityHTML.classList.add( 'indestructible' );
-                }
-
-                cellHTML.appendChild( entityHTML );
-            }
-
-            rowHTML.appendChild( cellHTML );
-        }
-
-        gridHTML.appendChild( rowHTML );
-    }
-
-    gridWrapper.prepend( gridHTML );
-    // Build 'grid UI' - END
+    // Build 'grid' HTML.
+    var gridHTML = view.buildGrid( { grid: grid, wrapperId: 'gridWrapper' } );
 
     // Insert 'Player' nodes.
     view.insertNode( 'gridWrapper', player1, [ 0, 0 ] );

@@ -2,6 +2,7 @@
 // IMPORT MODULES
 // --------------------------------------------------
 var Player = require( './player' );
+var Terrain = require( './terrain' );
 
 
 // --------------------------------------------------
@@ -15,6 +16,69 @@ function View( options ) {
 
     return this;
 } // /View()
+
+
+View.prototype.buildGrid = function( options ) {
+    options = options || {};
+
+    var grid = options.grid || null;
+    var wrapperId = options.wrapperId || null;
+
+    if ( !grid || !wrapperId ) {
+        return null;
+
+        /// TODO[@jrmykolyn] - Throw error.
+    }
+
+    var gridWrapper = document.getElementById( wrapperId );
+    var gridHTML = document.createElement( 'div' );
+
+    gridHTML.classList.add( 'grid' );
+
+    /// TODO[@jrmykolyn] - Build out alternative method for fetching grid height.
+    for ( var i = 0, x = ( grid.getHeight() + 1 ); i < x; i++ ) {
+        var rowHTML = document.createElement( 'div' );
+
+        rowHTML.classList.add( 'row' );
+        rowHTML.setAttribute( 'data-row', i );
+
+        for ( var j = 0; j < x; j++ ) {
+            var coords = [ i, j ];
+            var currEntity = grid.getEntityAtCoords( coords );
+            var cellHTML = document.createElement( 'div' );
+
+            cellHTML.classList.add( 'cell' );
+            cellHTML.classList.add( 'tile' );
+            cellHTML.setAttribute( 'data-row', i );
+            cellHTML.setAttribute( 'data-col', j );
+
+            // Build and insert `Terrain` nodes.
+            if ( currEntity && currEntity instanceof Terrain ) {
+                var entityHTML = document.createElement( 'div' );
+
+                entityHTML.classList.add( 'entity' );
+                entityHTML.classList.add( 'terrain' );
+                entityHTML.setAttribute( 'data-id', currEntity.id );
+
+                // If the current entity *IS* indestructible, add a supplementary class.
+                if ( currEntity.indestructible ) {
+                    entityHTML.classList.add( 'indestructible' );
+                }
+
+                cellHTML.appendChild( entityHTML );
+            }
+
+            rowHTML.appendChild( cellHTML );
+        }
+
+        gridHTML.appendChild( rowHTML );
+    }
+
+    gridWrapper.prepend( gridHTML );
+
+    /// TEMP - Return `gridHTML` node to outer context. Moving forward, all interactions with DOM nodes should be done via the `View` API.
+    return gridHTML;
+} // /buildGrid()
 
 
 View.prototype.buildPlayerUI = function( player ) {
