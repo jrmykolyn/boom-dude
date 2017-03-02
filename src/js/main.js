@@ -29,7 +29,7 @@ var Dispatcher = require( './dispatcher' );
     game.players.push( player1 );
     game.players.push( player2 );
 
-    // Add 'Player; entities to 'Grid' object.
+    // Add 'Player' entities to 'Grid' object.
     grid.set( player1, [ 0, 0 ] );
     grid.set( player2, [ grid.getHeight(), grid.getWidth() ] );
 
