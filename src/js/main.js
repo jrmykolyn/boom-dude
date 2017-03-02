@@ -2,6 +2,7 @@ var Grid = require( './grid' );
 var Player = require( './player' );
 var Terrain = require( './terrain' );
 var View = require( './view' );
+var Dispatcher = require( './dispatcher' );
 
 
 ( function( window, document ) {
