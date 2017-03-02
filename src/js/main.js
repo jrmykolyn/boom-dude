@@ -1,3 +1,4 @@
+var Game = require( './game' );
 var Grid = require( './grid' );
 var Player = require( './player' );
 var Terrain = require( './terrain' );
