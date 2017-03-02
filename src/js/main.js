@@ -67,7 +67,7 @@ var Dispatcher = require( './dispatcher' );
     /// TODO[@jrmykolyn] - Move function into `Game` entity/class.
     function _emitGameOver() {
         var e = new Event( 'BD_GAME_OVER' );
-        window.dispatchEventEvent( e );
+        window.dispatchEvent( e );
     }
 
 
