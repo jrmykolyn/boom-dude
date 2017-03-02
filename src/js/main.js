@@ -11,12 +11,7 @@ var Dispatcher = require( './dispatcher' );
     // DECLARE VARS
     // --------------------------------------------------
     // 'Game' entity:
-    var game = {}
-
-    game.state = {};
-    game.state.isOver = false;
-
-    game.players = [];
+    var game = new Game();
 
     // Instantiate 'Grid' entities.
     var grid = new Grid( { count: 10, defaultValue: null } );

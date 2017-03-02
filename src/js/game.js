@@ -12,6 +12,14 @@
 // DECLARE FUNCTIONS
 // --------------------------------------------------
 function Game( options ) {
+    options = options || {};
+
+    // Set `state`.
+    this.state = {};
+    this.state.isOver = false;
+
+    this.players = [];
+
     return this;
 }
 
