@@ -47,7 +47,6 @@ var View = require( './view' );
     }
 
     var gridWrapper = document.getElementById( 'gridWrapper' );
-    var bombWrapper = document.getElementById( 'bombWrapper' );
 
     // Build 'grid UI' - START
     /// TODO[@jrmykolyn] - Move logic to elsewhere in controller, or into dedicated partial file.
@@ -96,37 +95,10 @@ var View = require( './view' );
     gridWrapper.prepend( gridHTML );
     // Build 'grid UI' - END
 
-
     // Insert 'Player' nodes.
     view.insertNode( 'gridWrapper', player1, [ 0, 0 ] );
     view.insertNode( 'gridWrapper', player2, [ grid.getHeight(), grid.getWidth() ] );
 
-    // Build 'bomb grid' - START
-    /// TODO[@jrmykolyn] - Move logic to elsewhere in controller, or into dedicated partial file.
-    var bombGridHTML = document.createElement( 'div' );
-    bombGridHTML.classList.add( 'grid' );
-
-    /// TODO[@jrmykolyn] - Build out alternative method for fetching grid height.
-    for ( var i = 0, x = ( grid.getHeight() + 1 ); i < x; i++ ) {
-        var rowHTML = document.createElement( 'div' );
-
-        rowHTML.classList.add( 'row' );
-
-        for ( var j = 0; j < x; j++ ) {
-            var cellHTML = document.createElement( 'div' );
-
-            cellHTML.classList.add( 'cell' );
-            cellHTML.setAttribute( 'data-row', i );
-            cellHTML.setAttribute( 'data-col', j );
-
-            rowHTML.append( cellHTML );
-        }
-
-        bombGridHTML.appendChild( rowHTML );
-    }
-
-    bombWrapper.prepend( bombGridHTML );
-    // Build 'bomb grid' - START
 
     // --------------------------------------------------
     // DECLARE FUNCTIONS
