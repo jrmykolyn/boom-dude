@@ -46,10 +46,6 @@ var View = require( './view' );
         grid.insert( t );
     }
 
-    var inventory = {
-        bombs: 3
-    };
-
     var gridWrapper = document.getElementById( 'gridWrapper' );
     var terrainWrapper = document.getElementById( 'terrainWrapper' );
     var bombWrapper = document.getElementById( 'bombWrapper' );
