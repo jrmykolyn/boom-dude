@@ -47,7 +47,6 @@ var View = require( './view' );
     }
 
     var gridWrapper = document.getElementById( 'gridWrapper' );
-    var terrainWrapper = document.getElementById( 'terrainWrapper' );
     var bombWrapper = document.getElementById( 'bombWrapper' );
 
     // Build 'grid UI' - START
@@ -63,6 +62,8 @@ var View = require( './view' );
         rowHTML.setAttribute( 'data-row', i );
 
         for ( var j = 0; j < x; j++ ) {
+            var coords = [ i, j ];
+            var currEntity = grid.getEntityAtCoords( coords );
             var cellHTML = document.createElement( 'div' );
 
             cellHTML.classList.add( 'cell' );
@@ -70,42 +71,7 @@ var View = require( './view' );
             cellHTML.setAttribute( 'data-row', i );
             cellHTML.setAttribute( 'data-col', j );
 
-            rowHTML.appendChild( cellHTML );
-        }
-
-        gridHTML.appendChild( rowHTML );
-    }
-
-    gridWrapper.prepend( gridHTML );
-    // Build 'grid UI' - END
-
-
-    // Insert 'Player' nodes.
-    view.insertNode( 'gridWrapper', player1, [ 0, 0 ] );
-    view.insertNode( 'gridWrapper', player2, [ grid.getHeight(), grid.getWidth() ] );
-
-    // Build 'grid terrain' - START
-    /// TODO[@jrmykolyn] - Move logic to elsewhere in controller, or into dedicated partial file.
-    var terrainGridHTML = document.createElement( 'div' );
-    terrainGridHTML.classList.add( 'grid' );
-
-    /// TODO[@jrmykolyn] - Build out alternative method for fetching grid height.
-    for ( var i = 0, x = ( grid.getHeight() + 1 ); i < x; i++ ) {
-        var rowHTML = document.createElement( 'div' );
-
-        rowHTML.classList.add( 'row' );
-        rowHTML.setAttribute( 'data-row', i );
-
-        for ( var j = 0; j < x; j++ ) {
-            var cellHTML = document.createElement( 'div' );
-
-            cellHTML.classList.add( 'cell' );
-            cellHTML.setAttribute( 'data-row', i );
-            cellHTML.setAttribute( 'data-col', j );
-
-            var coords = [ i, j ];
-            var currEntity = grid.getEntityAtCoords( coords );
-
+            // Build and insert `Terrain` nodes.
             if ( currEntity && currEntity instanceof Terrain ) {
                 var entityHTML = document.createElement( 'div' );
 
@@ -121,15 +87,19 @@ var View = require( './view' );
                 cellHTML.appendChild( entityHTML );
             }
 
-            rowHTML.append( cellHTML );
+            rowHTML.appendChild( cellHTML );
         }
 
-        terrainGridHTML.appendChild( rowHTML );
+        gridHTML.appendChild( rowHTML );
     }
 
-    terrainWrapper.prepend( terrainGridHTML );
-    // Build 'grid terrain' - START
+    gridWrapper.prepend( gridHTML );
+    // Build 'grid UI' - END
 
+
+    // Insert 'Player' nodes.
+    view.insertNode( 'gridWrapper', player1, [ 0, 0 ] );
+    view.insertNode( 'gridWrapper', player2, [ grid.getHeight(), grid.getWidth() ] );
 
     // Build 'bomb grid' - START
     /// TODO[@jrmykolyn] - Move logic to elsewhere in controller, or into dedicated partial file.
