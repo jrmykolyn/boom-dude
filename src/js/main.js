@@ -294,7 +294,7 @@ var View = require( './view' );
                         bombGrid.set( bomb, pos );
 
                         // Add 'bomb' to 'view'.
-                        view.insertNode( 'bombWrapper', bomb, bomb.coords );
+                        view.insertNode( 'gridWrapper', bomb, bomb.coords );
 
                         // Start `bomb` countdown.
                         bomb.arm();
@@ -357,7 +357,7 @@ var View = require( './view' );
                         bombGrid.set( bomb, pos );
 
                         // Add 'bomb' to 'view'.
-                        view.insertNode( 'bombWrapper', bomb, bomb.coords );
+                        view.insertNode( 'gridWrapper', bomb, bomb.coords );
 
                         // Start `bomb` countdown.
                         bomb.arm();
