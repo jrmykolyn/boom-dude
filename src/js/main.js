@@ -60,26 +60,20 @@ var View = require( './view' );
     function movePlayer( player, direction ) {
         var prop = null;
         var mod = 1;
-        var moveDir = null;
         var currVal = null;
         var newVal = null;
-        var maxVal = null;
 
         switch ( direction ) {
             case 'up':
                 mod = -1;
             case 'down':
                 prop = 'top';
-                maxVal = gridHTML.clientHeight;
-                moveDir = 'v';
 
                 break;
             case 'left':
                 mod = -1;
             case 'right':
                 prop = 'left';
-                maxVal = gridHTML.clientWidth;
-                moveDir = 'h';
 
                 break;
             default:
